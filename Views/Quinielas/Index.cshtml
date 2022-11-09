@@ -1,0 +1,420 @@
+﻿@model Quinela_TPD.Models.ModelView.QuinielaMV
+@using Microsoft.AspNetCore.Http
+@using System.Globalization
+@inject IHttpContextAccessor httpAcc
+
+<!-- CONTENT -->
+<hr />
+<div class="card-title">
+    <h1 class="text-center">
+        <strong>
+            Quiniela
+        </strong>
+    </h1>
+</div>
+<div class="row">
+    <div class="col-sm-9">
+        <!-- FASE DE GRUPOS -->
+        <div class="lista-partidos">
+            @foreach (var itemFase in Model.ListQuinielas.OrderBy(o => o.JuegoModel.Fase).Select(s => s.JuegoModel.Fase).Distinct())
+            {
+                <hr />
+                @switch (itemFase)
+                {
+                    case 1:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Fase de grupos
+                        </h4>
+                        break;
+                    case 2:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Octavos de final
+                        </h4>
+                        break;
+                    case 3:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Cuartos de final
+                        </h4>
+                        break;
+                    case 4:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Semifinal
+                        </h4>
+                        break;
+
+                    case 5:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Tercer y cuarto lugar
+                        </h4>
+                        break;
+
+                    case 6:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Final
+                        </h4>
+                        break;
+                    default:
+                        <h4 class="color3">
+                            <span class="icon-trophy"></span>
+                            Configurar
+                        </h4>
+                        break;
+                }
+
+                <hr />
+
+                @foreach (var itemDate in Model.ListQuinielas.Where(w => w.JuegoModel.Fase == itemFase).Select(s => s.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES"))).Distinct())
+                {
+                    <h4 class="color3">@itemDate</h4>
+                    @foreach (var item in Model.ListQuinielas.Where(w => w.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES")) == itemDate))
+                    {
+                        @if (item.Puntaje == null && item.JuegoModel.FechaJuego.AddHours(-1) > DateTime.Now && item.JuegoModel.Editable == true)
+                        {
+
+                            <div id="row-partido" style="cursor:pointer" class="row fase-1 level-1 partido  predicho" onclick="EditarPrediccion('@item.Clave','@item.JuegoModel.EquipoModel1.Nombre','@item.JuegoModel.EquipoModel2.Nombre', '@item.Prediccion1', '@item.Prediccion3', '/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera','/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera')">
+                                <div class="col-xs-1 time level-1">
+                                    <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
+                                </div>
+                                <div class="col-xs-2 prediccion prediccion-mobile">
+                                    <a class="btnPrediccion" data-pid="5">
+                                        <span class="icon icon-ok icon-check"></span>
+                                    </a>
+                                </div>
+                                <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
+                                    <div class="row">
+                                        <div class="col-xs-6 col">
+                                            <spam class="flag">
+                                                <img src="~/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera"
+                                     alt=""
+                                     style="width: 30px; height: 30px; z-index:2;"
+                                     class="rounded-circle" />
+                                            </spam>
+                                            <span class="name">@item.JuegoModel.EquipoModel1.Nombre</span>
+                                            <span class="counter">
+                                                @item.Prediccion1
+                                            </span>
+                                            @if (item.JuegoModel.MarcardorModel != null)
+                                            {
+                                                @item.JuegoModel.MarcardorModel.Equipo1
+                                            }
+                                        </div>
+                                        <div class="col-xs-6 col acierto ">
+                                            @if (item.JuegoModel.MarcardorModel != null)
+                                            {
+                                                @item.JuegoModel.MarcardorModel.Equipo2
+                                            }
+                                            <span class="counter">
+                                                @item.Prediccion3
+                                            </span>
+                                            <span class="name">@item.JuegoModel.EquipoModel2.Nombre</span>
+                                            <spam class="flag">
+                                                <img src="~/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera"
+                                     alt=""
+                                     style="width: 30px; height: 30px; z-index:2;"
+                                     class="rounded-circle" />
+                                            </spam>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 prediccion">
+                                    <span class="fa fa-external-link"></span>
+                                    @if (item.JuegoModel.MarcardorModel != null)
+                                    {
+                                        <a class="" data-pid="5">
+                                            <h1 style="font-size:18px;"><span class="text">+ @item.Puntaje</span></h1>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        if (item.JuegoModel.FechaJuego.AddHours(-1) > DateTime.Now)
+                                        {
+
+                                            <a style="cursor:pointer;" class="text btnPrediccion animated flash" onclick="EditarPrediccion('@item.Clave','@item.JuegoModel.EquipoModel1.Nombre','@item.JuegoModel.EquipoModel2.Nombre', '@item.Prediccion1', '@item.Prediccion3', '/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera','/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera')">Modificar predicción</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="" data-pid="5">
+                                                <span class="text">Calculando..</span>
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="row-partido" class="row fase-1 level-1 partido  predicho">
+                                <div class="col-xs-1 time level-1">
+                                    <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
+                                </div>
+                                <div class="col-xs-2 prediccion prediccion-mobile">
+                                    <a class="btnPrediccion" data-pid="5">
+                                        <span class="icon icon-ok icon-check"></span>
+                                    </a>
+                                </div>
+                                <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
+                                    <div class="row">
+                                        <div class="col-xs-6 col">
+                                            <spam class="flag">
+                                                <img src="~/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera"
+                                     alt=""
+                                     style="width: 30px; height: 30px; z-index:2;"
+                                     class="rounded-circle" />
+                                            </spam>
+                                            <span class="name">@item.JuegoModel.EquipoModel1.Nombre</span>
+                                            <span class="counter">
+                                                @item.Prediccion1
+                                            </span>
+                                            @if (item.JuegoModel.MarcardorModel != null)
+                                            {
+                                                @item.JuegoModel.MarcardorModel.Equipo1
+                                            }
+                                        </div>
+                                        <div class="col-xs-6 col acierto ">
+                                            @if (item.JuegoModel.MarcardorModel != null)
+                                            {
+                                                @item.JuegoModel.MarcardorModel.Equipo2
+                                            }
+                                            <span class="counter">
+                                                @item.Prediccion3
+                                            </span>
+                                            <span class="name">@item.JuegoModel.EquipoModel2.Nombre</span>
+                                            <spam class="flag">
+                                                <img src="~/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera"
+                                     alt=""
+                                     style="width: 30px; height: 30px; z-index:2;"
+                                     class="rounded-circle" />
+                                            </spam>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 prediccion">
+                                    <span class="fa fa-external-link"></span>
+                                    @if (item.JuegoModel.MarcardorModel != null)
+                                    {
+                                        <a class="" data-pid="5">
+                                            <h1 style="font-size:18px;"><span class="text">+ @item.Puntaje</span></h1>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        if (item.JuegoModel.FechaJuego.AddHours(-1) > DateTime.Now)
+                                        {
+                                            <a class="" data-pid="5">
+                                                <span class="text">Sin acciones..</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="" data-pid="5">
+                                                <span class="text">Calculando...</span>
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+    </div>
+    <div class="col-sm-3 sidebar" style="background-color:rgba(98,21,45,.5);">
+        <div class="text-center">
+            <h1 style="font-size:24px"><span>Posiciones</span></h1>
+            <div class="leaderboard leaderboard-widget text-center">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th width="50%">
+
+                        <th width="100" class="text-right">Puntos</th>
+                    </tr>
+                    @foreach (var item in Model.ListCodigosPromocionales.OrderBy(o => o.posicion).Take(12))
+                    {
+                        <tr data-id="82602" class="podio first">
+                            <td style="padding-right: 10px;">
+                                <a asp-controller="Quinielas" asp-action="Info" asp-route-codigoPromocional="@item.Codigo">
+                                    <div class="avatar" style="background-image: url(../img/Estadio.jpg);"></div>
+                                </a>
+                                <strong class="font-family2 position">@item.posicion</strong>
+                            </td>
+                            <td width="100%">
+                                <div><strong>@item.Cliente</strong></div>
+                                <small class="grupo">@item.Nombre</small>
+                            </td>
+                            <td class="font-family2 puntos">
+                                @item.PuntajeQuinela
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+
+<script>
+    function EditarPrediccion(clave, equipo1, equipo2, prediccion1, prediccion3, img1, img2) {
+        $('#clave').val(clave);
+        $('#equipo1').val(equipo1);
+        $('#equipo2').val(equipo2);
+        $('#prediccion1').val(prediccion1);
+        $('#prediccion3').val(prediccion3);
+
+        $('#Imagen1').attr('src', img1);
+        $('#Imagen2').attr('src', img2);
+
+        $('#EditarPrediccion').modal('show');
+    }
+</script>
+
+<div class="modal fade" id="EditarPrediccion" tabindex="-1" role="dialog" aria-labelledby="EditarPrediccion" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModalPronostico">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px; color:white;">Mi pronóstico</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Quinielas" asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row">
+                            <div class="col-xs-9 counters">
+                                <br />
+                                <h1 style="font-size:20px;"><input type="text" class="form-control" id="equipo1" name="equipo1" readonly style="text-align:center !important; color:rgb(182,20,34) !important; background-color:rgb(255,255,255);" /></h1>
+                                <br />
+                            </div>
+                            <div class="col-xs-2 counters">
+                                <div class="input-group inline-group text-center">
+                                    <div class="">
+                                        <a class="btn btn-default btn-plus">
+                                            <i class="icon-arrow-up plus"></i>
+                                        </a>
+                                    </div>
+                                    <input class="form-control quantity text-center" id="prediccion1" name="prediccion1" min="0" value="0" type="number" style="background-color:rgba(82,30,44,.3); font-size:20px;">
+                                    <div class="">
+                                        <a class="btn btn-outline-secondary btn-minus">
+                                            <i class="icon-arrow-down minus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1 counters flag" style="background-color:rgba(255,255,255,0.1); z-index:-1;">
+                                <br />
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-9 counters text-center">
+                                <img id="Imagen1"
+                                     style="width: 45px; height: 45px"
+                                     class="rounded-circle" />
+
+                                <img src="~/img/versus.png"
+                                     alt=""
+                                     style="width: 55px; height: 75px"
+                                     class="rounded-circle" />
+
+                                <img id="Imagen2"
+                                     style="width: 45px; height: 45px"
+                                     class="rounded-circle" />
+                            </div>
+                            <div class="col-xs-2 counters" style="background-color:rgba(255,255,255,0.1); z-index:-1;">
+                                <br />
+                                <br />
+                                <br />
+                            </div>
+                            <div class="col-xs-1 counters flag" style="background-color:rgba(255,255,255,0.1); z-index:-1;">
+                                <br />
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-9 counters">
+                                <br />
+                                <h1 style="font-size:20px;"><input type="text" class="form-control" id="equipo2" name="equipo2" readonly style="text-align:center !important; color:rgb(182,20,34) !important; background-color:rgb(255,255,255);" /></h1>
+                                <br />
+                            </div>
+                            <div class="col-xs-2 counters">
+                                <div class="input-group inline-group text-center">
+                                    <div class="">
+                                        <a class="btn btn-default btn-plus">
+                                            <i class="icon-arrow-up plus"></i>
+                                        </a>
+                                    </div>
+                                    <input class="form-control quantity text-center" id="prediccion3" name="prediccion3" min="0" value="0" type="number" style="background-color:rgba(82,30,44,.3); font-size:20px;">
+                                    <div class="">
+                                        <a class="btn btn-outline-secondary btn-minus">
+                                            <i class="icon-arrow-down minus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1 counters flag" style="background-color:rgba(255,255,255,0.1); z-index:-1;">
+                                <br />
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12 counters flag" style="background-color:rgba(255,255,255,0.1); z-index:-1;">
+                        </div>
+
+                        @*<div class="form-group">
+                        <div>
+                        <h1 style="font-size:20px;"><input type="text" class="form-control" id="equipo1" name="equipo1" readonly style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
+
+                        <h1 style="font-size:20px;"><input min="0" type="number" class="form-control" id="prediccion1" name="prediccion1" required placeholder="predición" style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                        <div>
+                        <h1 style="font-size:20px;"><input type="text" class="form-control" id="equipo2" name="equipo2" readonly style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
+
+                        <h1 style="font-size:20px;"><input min="0" type="number" class="form-control" id="prediccion3" name="prediccion3" required placeholder="predición" style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
+                        </div>
+                        </div>*@
+
+                        <div class="modal-footer">
+                            <input style="color:rgba(254,254,254,1)" type="hidden" class="form-control" id="clave" name="clave" readonly hidden onshow="false">
+                            <div class="form-group row">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control" style="background-color:rgb(255,255,255); color:rgb(182,20,34) !important;"><strong>Guardar</strong></button>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-secondary form-control" data-dismiss="modal" style="background-color:rgb(255,255,255); color:rgb(182,20,34) !important;"><strong>Cancelar</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿
+@font-face {
+    font-family: 'Qatar 2022';
+    src: url('qatar2022arabic-bold-webfont.woff2') format('woff2'), url('qatar2022arabic-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+
+@font-face {
+    font-family: 'Qatar 2022';
+    src: url('qatar2022arabic-heavy-webfont.woff2') format('woff2'), url('qatar2022arabic-heavy-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}

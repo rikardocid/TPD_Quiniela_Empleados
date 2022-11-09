@@ -1,0 +1,26 @@
+﻿
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
+
+@using Microsoft.AspNetCore.Identity
+@using ASPNetCore6Identity.Models.Auth
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (httpAcc.HttpContext.Session.GetString("Usuario") != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link">@httpAcc.HttpContext.Session.GetString("Usuario")</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="LogIn" asp-controller="Usuario">Logout</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-action="LogIn" asp-controller="Usuario"> Login </a>
+        </li>
+    }
+</ul>

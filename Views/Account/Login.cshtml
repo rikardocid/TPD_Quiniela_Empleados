@@ -1,0 +1,105 @@
+﻿@model ASPNetCore6Identity.Models.Auth.LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+
+}
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+<link rel="stylesheet" href="~/css/mdb.min.css" />
+
+<div class="container containerLogin">
+    <div class="col-md-4">
+
+        <div class="card text-center">
+            <div class="card-header">
+                <h2>Iniciar Sesión</h2>
+            </div>
+            <form id="account" method="post" asp-action="IniciarSesion">
+
+                <div class="card-body">
+                    <h5>Use sus credenciales para ingresar al sistema.</h5>
+                    <hr />
+
+                    @*<div asp-validation-summary="All" class="text-danger">Algunos campos son requeridos</div>*@
+
+                    <div class="form-outline mb-4">
+                        <div class="form-outline">
+                            <input type="text" class="form-control" id="username" name="username" required />
+                            <label for="username" class="form-label">Usuario</label>
+                            <div class="invalid-feedback">Por favor agregue un usuario.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <div class="form-outline">
+                            <input type="password" class="form-control" id="password" name="password" required />
+                            <label for="password" class="form-label">Contraseña</label>
+                            <div class="invalid-feedback">Por favor agregue una contraseña.</div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+@*
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <hr />
+        <div class=""></div>
+        <h1>Iniciar Sesión</h1>
+        <br />
+        <form id="account" method="post" asp-action="IniciarSesion">
+            <h4>Use sus credenciales para ingresar al sistema.</h4>
+            <hr />
+
+            <div asp-validation-summary="All" class="text-danger">Algunos campos son requeridos</div>
+
+            <div class="form-outline mb-4">
+                <div class="form-outline">
+                    <input type="text" class="form-control" id="username" name="username" required />
+                    <label for="username" class="form-label">Usuario</label>
+                    <div class="invalid-feedback">Por favor agregue un usuario.</div>
+                </div>
+            </div>
+
+            <div class="form-outline mb-4">
+                <div class="form-outline">
+                    <input type="password" class="form-control" id="password" name="password" required />
+                    <label for="password" class="form-label">Contraseña</label>
+                    <div class="invalid-feedback">Por favor agregue una contraseña.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>*@
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/mdb.min.js" asp-append-version="true"></script>
+<script src="~/js/Validate.js"></script>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/Validate.js"></script>
+}

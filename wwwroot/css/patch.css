@@ -1,0 +1,87 @@
+﻿@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.leaderboard-scroll {
+    max-height: 800px;
+    min-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 20px 0 15px;
+    margin: 0;
+}
+
+.leaderboard-group .leaderboard-scroll {
+    padding: 0 6px 0 6px;
+}
+
+.leaderboard .grupo {
+    white-space: normal;
+    font-size: 80%;
+    line-height: 15px;
+}
+
+.leaderboard .name {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.leaderboard .podio .name {
+    font-size: 1.2em;
+}
+
+.leaderboard .podio.me .name {
+    color: #fff;
+}
+
+.leaderboard-users .podio {
+    background-color: rgb(238 255 163 / 26%);
+}
+
+.leaderboard td.puntos {
+    font-size: 1.3em;
+}
+
+.leaderboard.leaderboard-group .jugadores {
+    font-size: .8em;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #2f2e34;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(105 114 69);
+    border: 1px solid rgb(105 114 69);
+    border-radius: 10px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(255, 255, 255);
+    }
+
+.modal-grupo .modal-header h2 img {
+    background-color: #fff;
+}
+
+body.posiciones .leaderboard .grupo {
+    font-size: 1em;
+    letter-spacing: -0.02rem;
+    font-weight: 600;
+}
+
+
+.leaderboard .me .position {
+    margin-left: -2px;
+}

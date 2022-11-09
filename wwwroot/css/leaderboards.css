@@ -1,0 +1,101 @@
+﻿.leaderboard-search {
+    padding-bottom: 0;
+    padding-left: 20px;
+}
+
+.leaderboard-tabs {
+}
+
+    .leaderboard-tabs h5 {
+        border-bottom: 1px solid rgba(255, 255, 255, .28);
+        margin: 10px -20px 10px 0;
+        padding: 0;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, .18);
+    }
+
+    .leaderboard-tabs a {
+        display: inline-block;
+        padding: 10px 25px;
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(255, 255, 255, .18);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+        .leaderboard-tabs a.active {
+            color: rgb(207, 44, 39);
+            background-color: #fff;
+        }
+
+.posiciones .leaderboard-group {
+    display: none;
+}
+
+.posiciones .leaderboard-groups .leaderboard-group {
+    display: block !important;
+}
+
+.posiciones .leaderboard-group.show {
+    display: block;
+}
+
+.leaderboard-tabs a:hover {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, .38);
+}
+
+.leaderboard-tabs a.active:hover {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 1);
+    color: rgb(197, 34, 29);
+}
+
+.leaderboard-search .input-group {
+    margin-right: -45px;
+}
+
+.modal-usuario .group-partidos {
+    background-color: rgb(234 189 28 / 12%);
+    padding: 15px;
+    font-size: 14px;
+    overflow: auto;
+    max-height: 400px;
+}
+
+
+/* width */
+.modal-usuario ::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+.modal-usuario ::-webkit-scrollbar-track {
+    background: #650411;
+}
+
+/* Handle */
+.modal-usuario ::-webkit-scrollbar-thumb {
+    background: #bc132a;
+    border: 1px solid #a50d21;
+}
+
+    /* Handle on hover */
+    .modal-usuario ::-webkit-scrollbar-thumb:hover {
+        background: rgb(255, 255, 255);
+    }
+
+.modal-grupo .leaderboard .position {
+    min-width: 34px;
+    margin-top: -17px;
+    padding-left: 10px;
+    padding-right: 11px;
+    width: auto;
+    line-height: 28px;
+}
+
+@media only screen and (max-width : 992px) {
+    .modal-usuario .group-partidos {
+        font-size: 90%;
+        padding: 8px;
+    }
+}

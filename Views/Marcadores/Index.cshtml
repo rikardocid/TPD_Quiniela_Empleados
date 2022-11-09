@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Marcadores";
+}
+
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
+
+@model Quinela_TPD.Models.ModelView.JuegosVM
+
+<div class="text-center">
+    <br />
+    <div class="card">
+        <div class="card-title"><h2><strong>Marcadores</strong> </h2></div>
+        <hr />
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+            <table class="table table-hover text-nowrap">
+                <thead class="bg-light">
+                    <tr>
+                        <th><h4 class="text-center">Juego</h4></th>
+                        <th><h4 class="text-center">Estadio</h4></th>
+                        <th><h4 class="text-center">Enfrentamiento</h4></th>
+                        <th><h4 class="text-center">Grupo</h4></th>
+                        @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                        {
+                            <th><h5>Opciones</h5></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.JuegoList)
+                    {
+                        <tr class="text-center">
+
+                            <td class="text-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1">@item.FechaJuego</p>
+                                        <div class="ms-3">
+                                            <p class="fw-normal mb-1">Fase @item.Fase</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="text-center">
+                                <p class="fw-bold mb-1">@item.EstadioModel.Nombre</p>
+                            </td>
+
+                            <td class="text-center">
+                                <img src="~/img/Banderas/@item.EquipoModel1.Bandera"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" />
+                                <img src="~/img/Escudos/@item.EquipoModel1.Escudo"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" />
+                                @item.EquipoModel1.Nombre
+                                @if (item.MarcardorModel != null)
+                                {
+                                    <strong style="font-size:19px !important; color:gold;"> @item.MarcardorModel.Equipo1</strong>
+                                }
+                                <img src="~/img/Versus-VS-sports-fight-battle-logo-icon-Graphics-5159150-1.jpg"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" />
+                                @if (item.MarcardorModel != null)
+                                {
+                                    <strong style="font-size:19px !important; color:gold;"> @item.MarcardorModel.Equipo2</strong>
+                                }
+                                @item.EquipoModel2.Nombre
+                                <img src="~/img/Escudos/@item.EquipoModel2.Escudo"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" />
+                                <img src="~/img/Banderas/@item.EquipoModel2.Bandera"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" />
+                            </td>
+
+                            <td class="text-center">
+                                <p class="fw-bold mb-1">@item.EquipoModel1.Grupo</p>
+                            </td>
+                            @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                            {
+                                <td class="text-center">
+                                    <a class="dropdown-item" onclick="AgregarMarcador('@item.Clave','@item.EquipoModel1.Nombre','@item.EquipoModel2.Nombre')"><h1 style="font-size:16px;">Editar</h1></a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+</div>
+
+<div class="modal fade" id="AgregarMarcador" tabindex="-1" role="dialog" aria-labelledby="AgregarMarcador" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="frameModal">
+
+                <div class="modal-header">
+
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:20px;">Marcador</h1>
+                    </div>
+
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Marcadores" asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+                            <input type="hidden" id="clave" name="clave" class="form-control" readonly />
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <input id="localLabel" name="localLabel" class="form-control" readonly />
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="local" name="local" class="form-control" type="number" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <input id="visitanteLabel" name="visitanteLabel" class="form-control" readonly />
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="visitante" name="visitante" class="form-control" type="number" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function AgregarMarcador(clave, localLabel, visitanteLabel) {
+
+        $('#clave').val(clave);
+        $('#localLabel').val(localLabel);
+        $('#visitanteLabel').val(visitanteLabel);
+
+        $('#AgregarMarcador').modal('show');
+    }
+
+</script>
+
+

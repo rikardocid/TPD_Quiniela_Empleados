@@ -1,0 +1,793 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
+
+<!DOCTYPE html>
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>TPD Quiniela</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    @{
+        ViewData["Title"] = "Bienvenido";
+    }
+
+    <meta name="description" content="">
+    <meta name="theme-color" content="#99bf2a" />
+    <meta name="robots" content="noindex">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" id="meta" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link href="~/css/site.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+
+    @*
+    <link href="https://tuprode.s3.amazonaws.com/catar2022-demo/fonts/qatar/stylesheet.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <link type="text/css" rel="stylesheet" href="https://tuprode.s3.amazonaws.com/catar2022-demo/css/flags/flags.min.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="https://tuprode.s3.amazonaws.com/catar2022-demo/css/main.css?202106101538" media="screen" />
+    <link type="text/css" rel="stylesheet" href="https://tuprode.s3.amazonaws.com/catar2022-demo/css/leaderboards.css?201806301803" media="screen" />
+    <link type="text/css" rel="stylesheet" href="https://tuprode.s3.amazonaws.com/catar2022-demo/css/responsive.css?201907011855" media="screen" />
+
+    <link type="text/css" rel="stylesheet" href="https://tuprode.s3.amazonaws.com/catar2022-demo/css/toastr/toastr.min.css" media="screen" />
+    <link type="text/css" rel="stylesheet" href="https://tuprode.s3.amazonaws.com/catar2022-demo/css/patch.css" media="screen" />
+
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/jquery-3.6.0.min.js" charset="UTF-8"></script>
+    *@
+
+    <link rel="stylesheet" href="~/fonts/stylesheet.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="~/css/flags.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-theme.css" />
+
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/leaderboards.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
+    <link rel="stylesheet" href="~/css/toastr.css" />
+    <link rel="stylesheet" href="~/css/patch.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css" media="screen" />
+
+    @*    <link rel="stylesheet" href="~/js/modernizr-2.6.2-respond-1.1.0.js screen" />
+    <link rel="stylesheet" href="~/js/jquery-3.6.0.js" />*@
+
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/jquery-3.6.0.min.js" charset="UTF-8"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+
+<body class="home">
+    <div class="frame">
+        <header class="container-fluid top-nav navbar-fixed-top" role="navigation">
+            <div id="btnMenus" class="menu-mobile">
+                <i class="icon-menu"></i>
+                <ul class="menu">
+                    <li class="" id="tab-mob-Index">
+                        @if (httpAcc.HttpContext.Session.GetString("Rol") == "Cliente")
+                        {
+                            <h4><a class="" asp-area="" asp-controller="Home" asp-action="Index">Mis quinielas</a></h4>
+                        }
+                        else
+                        {
+                            if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                            {
+                                <h4><a class="" asp-area="" asp-controller="Home" asp-action="Index"><i class="icon-home"></i></a></h4>
+                            }
+                            else
+                            {
+                                <h4><a class="" asp-area="" asp-controller="Quinielas" asp-action="Index">Mi quiniela</a></h4>
+                            }
+                        }
+                    </li>
+                    <li class="" id="tab-mob-Privacy">
+                        <h4><a class="" asp-area="" asp-controller="Home" asp-action="Privacy">Como jugar</a></h4>
+                    </li>
+
+                    @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                    {
+                        <li class="" id="tab-mob-Marcadores">
+                            <h4><a class="" asp-area="" asp-controller="Marcadores" asp-action="Index">Marcadores</a></h4>
+                        </li>
+                        <li class="" id="tab-mob-Juegos">
+                            <h4><a class="" asp-area="" asp-controller="Juegos" asp-action="Index">Juegos</a></h4>
+                        </li>
+
+                        <li class="" id="tab-mob-Equipos">
+                            <h4><a class="" asp-area="" asp-controller="Equipos" asp-action="Index">Equipos</a></h4>
+                        </li>
+
+                        <li class="" id="tab-mob-Estadios">
+                            <h4><a class="" asp-area="" asp-controller="Estadios" asp-action="Index">Estadios</a></h4>
+                        </li>
+                    }
+
+                    <li class="" id="tab-mob-Premios">
+                        <h4><a class="" asp-area="" asp-controller="Home" asp-action="Premios">Premios</a></h4>
+                    </li>
+
+                    <li class="" id="tab-mob-Posiciones">
+                        <h4><a class="" asp-area="" asp-controller="Home" asp-action="Posiciones">Tabla de posiciones</a></h4>
+                    </li>
+
+                    @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                    {
+                        <li class="">
+
+                            <a class="" a asp-action="LogIn" asp-controller="Usuario">
+                                Salir
+                            </a>
+                        </li>
+                    }
+                </ul>
+                <div class="overlay"></div>
+            </div>
+
+
+            <div class="container">
+                <div class="col-xs-5 col-sm-8 col-md-9">
+                    <div class="instance-logo">
+                        <a href="#" class="link-menu-mobile" id="btnMenu">
+                            <i class="icon-menu" onclick="myFunction()"></i>
+                            <img src="~/img/Logo-TPD.png">
+                        </a>
+                        <span class="logo">
+                            <a asp-area="" asp-controller="Home" asp-action="Index">
+                                <img src="~/img/TPD.png">
+                            </a>
+                        </span>
+                    </div>
+                    @*
+                    <div>
+                    <h1 style="font-size:18px;">Compra 1100 pesos más y recibe otra oportunidad de ganar</h1>
+                    </div>
+                    <div class="instance-logo">
+                    <a class="link-menu-mobile" id="btnMenu">
+                    <i class="icon-menu" onclick="myFunction()"></i>
+                    <img src="~/img/TPD.png">
+                    </a>
+                    <span class="logo">
+                    <a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/img/TPD.png"></a>
+                    </span>
+                    </div>
+                    *@
+                    <ul class="menu">
+                        <li class="" id="tab-Index">
+                            @if (httpAcc.HttpContext.Session.GetString("Rol") == "Cliente")
+                            {
+                                <h4><a class="" asp-area="" asp-controller="Home" asp-action="Index">Mis quinielas</a></h4>
+                            }
+                            else
+                            {
+                                if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                                {
+                                    <h4><a class="" asp-area="" asp-controller="Home" asp-action="Index"><i class="icon-home"></i></a></h4>
+                                }
+                                else
+                                {
+                                    <h4><a class="" asp-area="" asp-controller="Quinielas" asp-action="Index">Mi quiniela</a></h4>
+                                }
+                            }
+                        </li>
+
+                        <li class="" id="tab-Privacy">
+                            <h4><a class="" asp-area="" asp-controller="Home" asp-action="Privacy">Como jugar</a></h4>
+                        </li>
+
+                        @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                        {
+                            <li class="" id="tab-Marcadores">
+                                <h4><a class="" asp-area="" asp-controller="Marcadores" asp-action="Index">Marcadores</a></h4>
+                            </li>
+                            <li class="" id="tab-Juegos">
+                                <h4><a class="" asp-area="" asp-controller="Juegos" asp-action="Index">Juegos</a></h4>
+                            </li>
+
+                            <li class="" id="tab-Equipos">
+                                <h4><a class="" asp-area="" asp-controller="Equipos" asp-action="Index">Equipos</a></h4>
+                            </li>
+
+                            <li class="" id="tab-Estadios">
+                                <h4><a class="" asp-area="" asp-controller="Estadios" asp-action="Index">Estadios</a></h4>
+                            </li>
+                        }
+                        <li class="" id="tab-Premios">
+                            <h4><a class="" asp-area="" asp-controller="Home" asp-action="Premios">Premios</a></h4>
+                        </li>
+
+                        <li class="" id="tab-Posiciones">
+                            <h4><a class="" asp-area="" asp-controller="Home" asp-action="Posiciones">Tabla de posiciones</a></h4>
+                        </li>
+                        @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                        {
+                            <li class="">
+
+                                <a class="" a asp-action="LogIn" asp-controller="Usuario">
+                                    Salir
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                @if (httpAcc.HttpContext.Session.GetString("Rol") == "Cliente")
+                {
+                    <div class='col-xs-7 col-sm-4 col-md-3 text-right nav-profile'>
+                        <div id="btnMenuPerfil">
+                            <div class="avatar" style="background-image:url(../img/Avatar/avatar.jpg);">
+                                <i class="icon-pencil"></i>
+                            </div>
+                            <ul class="menu-perfil">
+                                <li><a onclick="UsuarioEdit()" style="cursor:pointer;">Perfil</a></li>
+                                <li>
+                                    <a asp-action="LogIn" asp-controller="Usuario">
+                                        Desconectarse
+                                    </a>
+                                </li>
+                                <li style="cursor:pointer;">
+                                    <a class="" onclick="CambiarPass();">
+                                        Cambiar contraseña
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="#" class="puntajes">
+                            <div class="puntaje" style="margin-top: -2px !important">
+                                <div class="text">mi mejor puntaje</div>
+                                <span class="font-family2" title="Representa el mejor puntaje de mis quinielas">@httpAcc.HttpContext.Session.GetInt32("Puntaje")</span>
+                            </div>
+                            <div class="position" style="margin-top: -2px !important">
+                                <div class="text">mi mejor posición</div>
+                                <span class="font-family2">
+                                    @if (httpAcc.HttpContext.Session.GetInt32("Posicion") != 0)
+                                    {
+                                        <span class="font-family2">@httpAcc.HttpContext.Session.GetInt32("Posicion")&deg;</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="font-family2">&asymp;</span>
+                                    }
+                                </span>
+                            </div>
+                            <div class="grupo">
+                                <span>@httpAcc.HttpContext.Session.GetString("UsuarioNombre")</span>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+                @if (httpAcc.HttpContext.Session.GetString("Rol") == "ClienteDependiente")
+                {
+                    <div class='col-xs-7 col-sm-4 col-md-3 text-right nav-profile'>
+                        <div id="btnMenuPerfil">
+                            <div class="avatar" style="background-image:url(../img/Avatar/avatar.jpg);">
+                                <i class="icon-pencil"></i>
+                            </div>
+                            <ul class="menu-perfil">
+                                <li><a onclick="UsuarioEdit()" style="cursor:pointer;">Perfil</a></li>
+                                <li>
+                                    <a class="" a asp-action="LogIn" asp-controller="Usuario">
+                                        Desconectarse
+                                    </a>
+                                </li>
+                                <li style="cursor:pointer;">
+                                    <a class="" onclick="CambiarPass();">
+                                        Cambiar contraseña
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="#" class="puntajes">
+                            <div class="puntaje" style="margin-top: -2px !important">
+                                <div class="text">Puntaje</div>
+                                <span class="font-family2">@httpAcc.HttpContext.Session.GetInt32("Puntaje")</span>
+                            </div>
+                            <div class="position" style="margin-top: -2px !important">
+                                <div class="text">Posición</div>
+                                @if (httpAcc.HttpContext.Session.GetInt32("Posicion") != 0)
+                                {
+                                    <span class="font-family2">@httpAcc.HttpContext.Session.GetInt32("Posicion")&deg;</span>
+                                }
+                                else
+                                {
+                                    <span class="font-family2">&asymp;</span>
+                                }
+                            </div>
+                            <div class="grupo">
+                                <span>@httpAcc.HttpContext.Session.GetString("NombreQuiniela")</span>
+                            </div>
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </header>
+
+
+        <div class="first-content container-fluid home-container">
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <br />
+                            <br />
+
+                            <div class="text-center">
+                                <div id="carousel-banner-home" class="carousel carousel-banners slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="item active">
+                                            <img src='~/img/Banner/cargo.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/Banner/fm.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/Banner/dp.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/Banner/king.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/Banner/pwrpro.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/Banner/rod.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/Banner/rock.png'>
+                                        </div>
+                                    </div>
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carousel-banner-home" data-slide-to="0" class="active"></li>
+                                        <li data-target="#carousel-banner-home" data-slide-to="1"></li>
+                                        <li data-target="#carousel-banner-home" data-slide-to="2"></li>
+                                        <li data-target="#carousel-banner-home" data-slide-to="3"></li>
+                                        <li data-target="#carousel-banner-home" data-slide-to="4"></li>
+                                        <li data-target="#carousel-banner-home" data-slide-to="5"></li>
+                                        <li data-target="#carousel-banner-home" data-slide-to="6"></li>
+                                    </ol>
+                                </div>
+
+                                <div id="carousel-banner-home-responsive" class="carousel carousel-banners slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+
+                                        <div class="item active">
+                                            <img src='~/img/BannerMobil/Cargo.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/BannerMobil/fm.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/BannerMobil/dp.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/BannerMobil/king.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/BannerMobil/pwrpro.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/BannerMobil/rod.png'>
+                                        </div>
+                                        <div class="item">
+                                            <img src='~/img/BannerMobil/rock.png'>
+                                        </div>
+
+                                    </div>
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="0" class="active"></li>
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="1"></li>
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="2"></li>
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="3"></li>
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="4"></li>
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="5"></li>
+                                        <li data-target="#carousel-banner-home-responsive" data-slide-to="6"></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="container">
+                                <main role="main" class="pb-3">
+                                    @RenderBody()
+                                </main>
+                            </div>
+
+                            <div class="row">
+                                <div class="text-center">
+                                    <br />
+                                    <div class="card">
+                                        <div class="col-sm-12">
+                                            <hr />
+                                            <div class="card-title">
+                                                <h1>
+                                                    <strong>
+                                                        Premios
+                                                    </strong>
+                                                </h1>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                        <hr />
+                                    </div>
+                                    <hr />
+                                    <div class="container-fluid">
+                                        <div class="row premios mt4 mb4 clearfix">
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/pantallaaaa.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 1</h3>
+                                                <h2>TV SAMSUNG 70" Crystal 4K</h2>
+                                                @*<p>Disfruta del mejor entretenimiento</p>*@
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/iPhone.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 2</h3>
+                                                <h2>Iphone 13 128 GB</h2>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/pantallaaaa.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 3</h3>
+                                                <h2>TV SAMSUNG 55" Crystal 4K</h2>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/iPadPremio.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 4</h3>
+                                                <h2>Ipad 10.2</h2>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/pantallaaaa.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 5</h3>
+                                                <h2>TV Hisense UHD 43"</h2>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/Celular.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 6</h3>
+                                                <h2>Samsung A33 5G 128GB</h2>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/camisetaaaaa.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 7</h3>
+                                                <h2>Camiseta de la selección</h2>
+                                                @*<p>Para tu mejor momento.</p>*@
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/camisetaaaaa.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 8</h3>
+                                                <h2>Camiseta de la selección</h2>
+                                                @*<p>Para tu mejor momento.</p>*@
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/camisetaaaaa.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 9</h3>
+                                                <h2>Camiseta de la selección</h2>
+                                                @*<p>Para tu mejor momento.</p>*@
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/Balon.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 10</h3>
+                                                <h2>Balon Adidas Al Rilha Mundial 2022</h2>
+                                                @*<p>Para tu mejor momento.</p>*@
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/Balon.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 11</h3>
+                                                <h2>Balon Adidas Al Rilha Mundial 2022</h2>
+                                                @*<p>Para tu mejor momento.</p>*@
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 premio">
+                                                <img src="~/img/Premios/Balon.png" class="premio img-responsive">
+                                                <h3>PUESTO NÚMERO 12</h3>
+                                                <h2>Balon Adidas Al Rilha Mundial 2022</h2>
+                                                @*<p>Para tu mejor momento.</p>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="container-fluid footer">
+                    <div class="row">
+                        <div class="container">
+                            <div class="row row-premios">
+                                <div class="col-xs-12 clearfix">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row banda">
+                        <div class="container">
+                            <div class="row elementos">
+                                <div class="col-xs-12 col-sm-2 text-left text-xs-center">
+
+                                    <img src="~/img/TPD.png" height="60" class="logo responsive">
+
+                                </div>
+                                <div class="col-xs-12 col-sm-7 col-md-10 text-xs-center">
+                                    <ul class="menu pull-left">
+                                        <li class="" id="tab-foot-Index">
+                                            @if (httpAcc.HttpContext.Session.GetString("Rol") != "ClienteDependiente")
+                                            {
+                                                <h4><a class="" asp-area="" asp-controller="Home" asp-action="Index">Mis quinielas</a></h4>
+                                            }
+                                            else
+                                            {
+                                                <h4><a class="" asp-area="" asp-controller="Quinielas" asp-action="index">Mi quiniela</a></h4>
+                                            }
+                                        </li>
+                                        <li class="" id="tab-foot-Privacy">
+                                            <a class="" asp-area="" asp-controller="Home" asp-action="Privacy">Como Jugar</a>
+                                        </li>
+
+                                        @if (httpAcc.HttpContext.Session.GetString("Rol") == "Administrador")
+                                        {
+                                            <li class="" id="tab-foot-Marcadores">
+                                                <a class="" asp-area="" asp-controller="Marcadores" asp-action="Index">Marcadores</a>
+                                            </li>
+                                            <li class="" id="tab-foot-Juegos">
+                                                <a class="" asp-area="" asp-controller="Juegos" asp-action="Index">Juegos</a>
+                                            </li>
+
+                                            <li class="" id="tab-foot-Equipos">
+                                                <a class="" asp-area="" asp-controller="Equipos" asp-action="Index">Equipos</a>
+                                            </li>
+
+                                            <li class="" id="tab-foot-Estadios">
+                                                <a class="" asp-area="" asp-controller="Estadios" asp-action="Index">Estadios</a>
+                                            </li>
+                                        }
+                                        <li class="" id="tab-foot-Premios">
+                                            <a class="" asp-area="" asp-controller="Home" asp-action="Premios">Premios</a>
+                                        </li>
+
+                                        <li class="" id="tab-foot-Posiciones">
+                                            <a class="" asp-area="" asp-controller="Home" asp-action="Posiciones">Tabla de posiciones</a>
+                                        </li>
+                                        <li class="">
+                                            <a class="" a asp-action="LogIn" asp-controller="Usuario">
+                                                Salir
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/moment.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/moment-with-locales.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/jquery.cookie.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/validate2.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/toastr/toastr.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/fileuploader.js" charset="UTF-8"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118592262-1"></script>
+
+</body>
+</html>
+
+<script>
+    function myFunction() {
+
+        //document.getElementById("btnMenus").addClass("opened");
+
+        var ob = document.getElementById("btnMenus");
+        ob.classList.add("opened");
+        //$('.images').addClass('col-md-6');
+
+
+        //$(".menu-mobile").click(function () {
+        //    $(this).addClass("opened");
+        //});
+
+        //$(".menu-mobile").click(function () {
+        //    $("menu").removeClass("opened");
+        //    $(this).addClass("selected");
+        //});
+
+    }
+
+</script>
+
+<script src="~/js/Validate.js"></script>
+
+<script>
+    function CambiarPass() {
+        $('#CambiarPass').modal('show');
+    }
+
+        function UsuarioEdit() {
+        //$('#UsuarioEdit').modal('show');
+    }
+
+    //$(".menu li").click(function () {
+    //    $(".menu li").removeClass("active");
+    //    $(this).addClass("active");
+    //});
+
+</script>
+
+<script>
+    $(".menu li").removeClass("active");
+    /// Url actual
+    let url = window.location.href;
+
+    /// Elementos de li
+    const tabs = ["Index", "Privacy", "Marcadores", "Juegos", "Equipos", "Estadios", "Premios", "Posiciones"];
+
+    tabs.forEach(e => {
+        /// Agregar .php y ver si lo contiene en la url
+        if (url.indexOf(e) != -1) {
+            /// Agregar tab- para hacer que coincida la Id
+            setActive("tab-" + e);
+            setActive("tab-mob-" + e);
+            setActive("tab-foot-" + e);
+        }
+    });
+
+    /// Funcion que asigna la clase active
+    function setActive(id) {
+        //$(".menu li").removeClass("active");
+        document.getElementById(id).setAttribute("class", "active");//.classList.add("active");//
+    }
+
+    $('.btn-plus, .btn-minus').on('click', function (e) {
+        const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
+        const input = $(e.target).closest('.input-group').find('input');
+        if (input.is('input')) {
+            input[0][isNegative ? 'stepDown' : 'stepUp']()
+        }
+    });
+</script>
+
+@if (TempData["alert"] != null)
+{
+    <script>
+        alert(@TempData["alert"]);
+    </script>
+}
+
+
+<div class="modal fade" id="CambiarPass" tabindex="-1" role="dialog" aria-labelledby="CambiarPass" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px">Compartir código</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Usuario" asp-action="CambiarPass">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Contraseña actual</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="passActual" name="passActual" required placeholder="Contraseña actual">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Nueva contraseña</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="nuevoPassword" name="nuevoPassword" required placeholder="Nueva contraseña">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <hr />
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="modal fade" id="UsuarioEdit" tabindex="-1" role="dialog" aria-labelledby="UsuarioEdit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px">Editar perfil</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Usuario" asp-action="edith">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Cambiar nombre</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="nuevonombre" name="nuevonombre" required placeholder="Nuevo nombre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Seleccione un avatar</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="nuevoPassword" name="nuevoPassword" required placeholder="Nueva contraseña">
+                                <select class="form-control" id="avatar" name="avatar">
+                                    <option>
+
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <hr />
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+*@

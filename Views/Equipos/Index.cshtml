@@ -1,0 +1,307 @@
+﻿@{
+    ViewData["Title"] = "Equipos";
+}
+
+@model List<Quinela_TPD.Models.EquipoModel>
+
+
+@*<link rel="stylesheet" href="~/css/Equipo.css" />
+*@
+
+<div class="text-center">
+    <br />
+    <div class="card">
+        <div class="card-title"><h2><strong>Equipos</strong> </h2></div>
+        <hr />
+        <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2">
+                <button class="btn btn-primary" onclick="CrearEquipo()">Agregar</button>
+            </div>
+        </div>
+        <hr />
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+            <table class="table table-hover text-nowrap">
+                <thead class="bg-light">
+                    <tr>
+                        <th><h4 class="text-center"></h4></th>
+                        <th><h4 class="text-center">Clave</h4></th>
+                        <th><h4 class="text-center">Nombre</h4></th>
+                        <th><h4 class="text-center">Grupo</h4></th>
+                        <th><h4 class="text-center">Opciones</h4></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr align="center">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="~/img/Banderas/@item.Bandera"
+                                     alt=""
+                                     style="width: 45px; height: 45px"
+                                     class="rounded-circle" />
+                                    &nbsp
+                                    <img src="~/img/Escudos/@item.Escudo"
+                                     alt=""
+                                     style="width: 45px; height: 45px"
+                                     class="rounded-circle" />
+                                </div>
+                                <div class="d-flex align-items-center">
+                                </div>
+                            </td>
+                            <td>
+                                <p class="fw-normal mb-1">@item.Clave</p>
+                            </td>
+
+                            <td>
+                                <p class="fw-normal mb-1">@item.Nombre</p>
+                            </td>
+
+                            <td>
+                                <p class="fw-normal mb-1">@item.Grupo</p>
+                            </td>
+
+                            <td align="center">
+                                <a class="dropdown-item" onclick="EditarEquipo('@item.Clave','@item.Nombre','@item.Grupo')"><h1 style="font-size:16px;">Editar</h1></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+</div>
+
+
+<div class="modal fade" id="CrearEquipo" tabindex="-1" role="dialog" aria-labelledby="CrearEquipo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:20px;">Agregar equipo</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Equipos" asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Nombre</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="nombre" name="nombre" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Grupo</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="grupo" name="grupo" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Bandera</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="bandera" name="bandera" class="form-control" type="file" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Escudo</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="escudo" name="escudo" class="form-control" type="file" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditarEquipo" tabindex="-1" role="dialog" aria-labelledby="EditarEquipo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:20px;">Equipo</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Equipos" asp-action="Edit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Clave</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="claveEdit" name="claveEdit" class="form-control" type="text" readonly />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Nombre</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="nombreEdit" name="nombreEdit" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Grupo</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="grupoEdit" name="grupoEdit" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Bandera</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="banderaEdit" name="banderaEdit" class="form-control" type="file" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Escudo</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="escudoEdit" name="escudoEdit" class="form-control" type="file" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function CrearEquipo() {
+
+        $('#CrearEquipo').modal('show');
+    }
+
+    function EditarEquipo(clave, nombre, grupo) {
+
+        $('#claveEdit').val(clave);
+        $('#nombreEdit').val(nombre);
+        $('#grupoEdit').val(grupo);
+
+        $('#EditarEquipo').modal('show');
+    }
+
+</script>

@@ -1,0 +1,393 @@
+﻿@{
+    ViewData["Title"] = "Juegos";
+}
+
+@model Quinela_TPD.Models.ModelView.JuegosVM
+
+<div class="text-center">
+    <br />
+    <div class="card">
+        <div class="card-title"><h2><strong>Juegos</strong> </h2></div>
+        <hr />
+        <div class="row">
+            <button class="btn btn-primary" onclick="CrearJuego()">Agregar</button>
+        </div>
+    </div>
+    <hr />
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+        <table class="table table-hover text-nowrap">
+            <thead class="bg-light">
+                <tr>
+                    <th><h4 class="text-center">Juego</h4></th>
+                    <th><h4 class="text-center">Estadio</h4></th>
+                    <th><h4 class="text-center">Enfrentamiento</h4></th>
+                    <th><h4 class="text-center">Grupo</h4></th>
+                    <th><h4 class="text-center">Estatus</h4></th>
+                    <th><h4 class="text-center">Opciones</h4></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.JuegoList)
+                {
+                    <tr class="text-center">
+                        <td class="text-center">
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">@item.FechaJuego</p>
+                                    <div class="ms-3">
+                                        <p class="fw-normal mb-1">Fase @item.Fase - @item.Editable</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-center">
+                            <p class="fw-bold mb-1">@item.EstadioModel.Nombre</p>
+                        </td>
+
+                        <td class="text-center">
+                            <img src="~/img/Banderas/@item.EquipoModel1.Bandera"
+                             alt=""
+                             style="width: 45px; height: 45px"
+                             class="rounded-circle" />
+
+                            @item.EquipoModel1.Nombre
+
+                            <img src="~/img/Versus-VS-sports-fight-battle-logo-icon-Graphics-5159150-1.jpg"
+                             alt=""
+                             style="width: 45px; height: 45px"
+                             class="rounded-circle" />
+
+                            @item.EquipoModel2.Nombre
+
+                            <img src="~/img/Banderas/@item.EquipoModel2.Bandera"
+                             alt=""
+                             style="width: 45px; height: 45px"
+                             class="rounded-circle" />
+                        </td>
+
+                        <td class="text-center">
+                            <p class="fw-bold mb-1">@item.EquipoModel1.Grupo</p>
+                        </td>
+
+                        <td class="text-center">
+                            <p class="fw-normal mb-1">@item.Estatus.ToString()</p>
+                        </td>
+
+                        <td class="text-center">
+                            <a class="dropdown-item" onclick="EditarJuego('@item.Clave','@item.FechaJuego','@item.Fase','@item.ClaveEquipo1','@item.ClaveEquipo2','@item.ClaveEstadio', '@item.Editable')"><h1 style="font-size:15px">Editar</h1></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+
+
+<div class="modal fade" id="CrearJuego" tabindex="-1" role="dialog" aria-labelledby="CrearJuego" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+                <div class="modal-header">
+
+                    <div class="align-content-end">
+                        <h4 class="modal-title" style="color:white" id="myModalLabel"> Agregar juego</h4>
+                    </div>
+
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Juegos" asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Fecha</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input asp-for="JuegoModel.FechaJuego" id="fechaJuego" name="fechaJuego" class="form-control" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Fase</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="fase" name="fase" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Equipo 1</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        @*<input asp-for="RecepcionMercancia.NomRecProv" class="form-control" />*@
+                                        @Html.DropDownListFor(e=>e.Equipo1,
+                                        Model.Equipo1, "Seleccione un equipo", new {@class="form-control"})
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Equipo 2</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        @*<input asp-for="RecepcionMercancia.NomRecProv" class="form-control" />*@
+                                        @Html.DropDownListFor(e=>e.Equipo2,
+                                        Model.Equipo2, "Seleccione un equipo", new {@class="form-control"})
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Estadio</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        @*<input asp-for="RecepcionMercancia.NomRecProv" class="form-control" />*@
+                                        @Html.DropDownListFor(e=>e.Estadio,
+                                        Model.Estadio, "Seleccione un estadio", new {@class="form-control", @name ="estadio"})
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Editable</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <select class="form-control" id="editable" name="editable">
+                                            <option value=true>Activo</option>
+                                            <option value=false>Inactivo</option>
+                                        </select>
+                                        @*                                        <input id="fase" name="fase" class="form-control" type="text" />
+                                        *@
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="EditarJuego" tabindex="-1" role="dialog" aria-labelledby="EditarJuego" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="frameModal">
+
+                <div class="modal-header">
+
+                    <div class="align-content-end">
+                        <h4 class="modal-title" style="color:white" id="myModalLabel"> Editar juego</h4>
+                    </div>
+
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Juegos" asp-action="Edit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+                            <input id="claveEditar" name="claveEditar" class="form-control" readonly type="hidden" />
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Fecha</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input asp-for="JuegoModel.FechaJuego" id="fechaJuegoEditar" name="fechaJuegoEditar" class="form-control" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Fase</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="faseEditar" name="faseEditar" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Equipo 1</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        @*<input asp-for="RecepcionMercancia.NomRecProv" class="form-control" />*@
+                                        @Html.DropDownListFor(e=>e.Equipo1,
+                                        Model.Equipo1, "Seleccione un equipo", new {@class="form-control", @name="claveEquipo1", @id = "claveEquipo1"})
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Equipo 2</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        @*<input asp-for="RecepcionMercancia.NomRecProv" class="form-control" />*@
+                                        @Html.DropDownListFor(e=>e.Equipo2,
+                                        Model.Equipo2, "Seleccione un equipo", new {@class="form-control", @name="claveEquipo2", @id = "claveEquipo2"})
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Estadio</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        @*<input asp-for="RecepcionMercancia.NomRecProv" class="form-control" />*@
+                                        @Html.DropDownListFor(e=>e.Estadio,
+                                        Model.Estadio, "Seleccione un estadio",  new {@class="form-control", @name="claveEstadio", @id = "claveEstadio"})
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Editable</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <select class="form-control" id="editable" name="editable">
+                                            <option value=true>Activo</option>
+                                            <option value=false>Inactivo</option>
+                                        </select>
+                                        @*                                        <input id="fase" name="fase" class="form-control" type="text" />
+                                        *@
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function CrearJuego() {
+        $('#CrearJuego').modal('show');
+    }
+
+    function EditarJuego(clave, fechaJuego, fase, claveEquipo1, claveEquipo2, claveEstadio, editable) {
+        console.log(fechaJuego);
+        $('#claveEditar').val(clave);
+        $('#fechaJuegoEditar').val(fechaJuego);
+        $('#faseEditar').val(fase);
+        $('#claveEquipo1').val(claveEquipo1);
+        $('#claveEquipo2').val(claveEquipo2);
+        $('#claveEstadio').val(claveEstadio);
+        $('#editableEditar').val(editable);
+
+        $('#EditarJuego').modal('show');
+    }
+
+</script>
+
+

@@ -1,0 +1,269 @@
+﻿@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>TPD Quiniela</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    @{
+        ViewData["Title"] = "Bienvenido";
+    }
+
+    <meta name="description" content="">
+    <meta name="theme-color" content="#99bf2a" />
+    <meta name="robots" content="noindex">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" id="meta" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link href="~/css/site.css" rel="stylesheet">
+    <link href="~/css/simple-line-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+
+    <link href="https://tuprode.s3.amazonaws.com/catar2022-demo/fonts/qatar/stylesheet.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="~/css/flags.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-theme.css" />
+
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/leaderboards.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
+    <link rel="stylesheet" href="~/css/toastr.css" />
+    <link rel="stylesheet" href="~/css/patch.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.css" media="screen" />
+
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/jquery-3.6.0.min.js" charset="UTF-8"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<body class="login">
+
+    <div class="frameLogin">
+
+        <!-- CONTENT -->
+        <div class="first-content container-fluid  login-container">
+            <div class="row">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-xs-8 col-sm-4 col-sm-offset-4 col-xs-offset-2 text-center logos instance-logo">
+                            <a href="https://www.tractopartesdiamante.com.mx/" target="_blank"><img src='~/img/TPD.png'></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text-center">
+                            <br>
+                            <div class="card-title">
+                                <h1>
+                                    <strong>
+                                        Quiniela del mundial 2022
+                                    </strong>
+                                </h1>
+                                <h1 style="font-size:25px;">
+                                    <strong>
+                                        Ingresar
+                                    </strong>
+                                </h1>
+                                @if (TempData["alert"] != null)
+                                {
+                                    <h4 class="text-white blink" style="font-size:18px;"><strong>@TempData["alert"]</strong></h4>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hide" id="error-login">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <blockquote class="bg-danger text-center">
+                                <span class="message"></span>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <br>
+                            <form name="form-login" id="form-login" class="form-horizontal" method="post" asp-action="LogIn">
+
+                                <div class="form-group">
+                                    <label for="user" class="col-sm-4 control-label">Código</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="username" name="username" required placeholder="Código">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password" class="col-sm-4 control-label">Contraseña</label>
+                                    <div class="col-sm-7">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required />
+                                    </div>
+                                </div>
+
+                                <div class=" text-center">
+                                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                                </div>
+                                <div class="text-center first-time-link">
+                                    <a onclick="OlvidoPass()"><strong>¿Olvido su contraseña?</strong></a>
+                                </div>
+                                <div class="text-center first-time-link">
+                                    ¿Te compartieron el código y es tu primera vez?, escribe la contraseña que quieras, posteriormente esa sera la que uses.
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center">
+                    <br />
+                    <div class="card">
+                        <div class="col-sm-12">
+                            <hr />
+                            <div class="card-title">
+                                <h1 style="font-size: 24px !important">
+                                    Entre más compres más oportunidades tienes de ganar estos ¡increibles premios!
+                                </h1>
+                            </div>
+                            <hr />
+                        </div>
+                        <hr />
+                    </div>
+                    <hr />
+                    <div class="container-fluid">
+                        <div class="row premios mt4 mb4 clearfix">
+                            <div class="col-xs-12 col-sm-2 premio">
+                                <img src="~/img/Premios/pantallaaaa.png" class="premio img-responsive">
+                                <h3>PUESTO NÚMERO 1</h3>
+                                <h2>TV 70" Crystal 4K</h2>
+                                @*<p>Disfruta del mejor entretenimiento</p>*@
+                            </div>
+                            <div class="col-xs-12 col-sm-2 premio">
+                                <img src="~/img/Premios/iPhone.png" class="premio img-responsive">
+                                <h3>PUESTO NÚMERO 2</h3>
+                                <h2>Iphone 13 128 GB</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 premio">
+                                <img src="~/img/Premios/pantallaaaa.png" class="premio img-responsive">
+                                <h3>PUESTO NÚMERO 3</h3>
+                                <h2>TV 55" Crystal 4K</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 premio">
+                                <img src="~/img/Premios/iPadPremio.png" class="premio img-responsive">
+                                <h3>PUESTO NÚMERO 4</h3>
+                                <h2>Ipad 10.2</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 premio">
+                                <img src="~/img/Premios/pantallaaaa.png" class="premio img-responsive">
+                                <h3>PUESTO NÚMERO 5</h3>
+                                <h2>TV UHD 43"</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 premio">
+                                <img src="~/img/Premios/Celular.png" class="premio img-responsive">
+                                <h3>PUESTO NÚMERO 6</h3>
+                                <h2>Samsung A33 5G 128GB</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.0/firebase-messaging.js"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/moment.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/moment-with-locales.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/bootstrap.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/jquery.cookie.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/validate2.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/toastr/toastr.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="https://tuprode.s3.amazonaws.com/catar2022-demo/js/vendor/fileuploader.js" charset="UTF-8"></script>
+    <script src="~/js/Validate.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118592262-1"></script>
+
+</body>
+</html>
+
+<script>
+    function OlvidoPass() {
+        $('#OlvidoPass').modal('show');
+    }
+</script>
+
+<div class="modal fade" id="OlvidoPass" tabindex="-1" role="dialog" aria-labelledby="OlvidoPass" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px; color:white;">Agregue su código de acceso</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Usuario" asp-action="OlvidoPass">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <div>
+
+                                <h1 style="font-size:20px;"><input class="form-control" id="cliente" name="cliente" required placeholder="Código de acceso" style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
+                            </div>
+                        </div>
+
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px; color:white;">En seguida revise su correo electronico para recibir sus credenciales</h1>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Enviar email con la contraseña</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

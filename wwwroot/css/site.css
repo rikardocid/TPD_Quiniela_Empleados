@@ -1,0 +1,121 @@
+﻿body, html {
+    height: 100%;
+}
+
+.bgLogin {
+    /* The image used */
+    /*background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");*/
+    background-image: url("../img/Login.jpg");
+    /* Full height */
+    height: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.bgResultados {
+    background-image: url("../img/5205447.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+table tr th {
+    cursor: pointer !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sorting {
+    background-color: #D4D4D4 !important;
+}
+
+.asc:after {
+    content: "↓" !important;
+}
+
+.desc:after {
+    content: "↑" !important;
+}
+
+/*Codigo para el contenedor y el texto de aviso al cliente*/
+.centradoAviso {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: smaller;
+    color: #14300b;
+    text-shadow: 0.1em 0.1em 1.05em #13c73a;
+}
+
+.sidebar {
+    padding: 20px;
+    background-color: white;
+    top: 0;
+    z-index: 1;
+}
+
+.content,
+.sidebar {
+    float: left;
+}
+
+/* The sticky */
+.sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+/*Termina Codigo para el contenedor y el texto de aviso al cliente*/
+
+
+/**Tema nuevo */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+
+@font-face {
+    font-family: 'Qatar 2022';
+    src: url('qatar2022arabic-bold-webfont.woff2') format('woff2'), url('qatar2022arabic-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Qatar 2022';
+    src: url('qatar2022arabic-heavy-webfont.woff2') format('woff2'), url('qatar2022arabic-heavy-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/*body.with-alert {
+    padding-top: 40px;
+}
+
+    body.with-alert .top-nav {
+        margin-top: 30px;
+    }
+
+.alert-demo {
+    position: fixed;
+    padding: 6px;
+    margin-top: -40px;
+    background-color: #cf2020;
+    color: #fff;
+    text-align: center;
+    z-index: 10000;
+    left: 0;
+    right: 0;
+    font-size: 13px;
+    font-weight: 800;
+}*/
+
+
+/*  */

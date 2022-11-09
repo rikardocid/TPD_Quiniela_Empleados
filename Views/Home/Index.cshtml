@@ -1,0 +1,288 @@
+﻿@{
+    ViewData["Title"] = "Codigos";
+}
+
+@model List<CodigoPromocionalModel>
+
+@using Microsoft.AspNetCore.Http
+@using System.Globalization
+@inject IHttpContextAccessor httpAcc
+
+<div class="text-center">
+    <br />
+    <div class="card">
+        <hr />
+        <div class="card-title">
+            <h1>
+                <strong>
+                    Códigos promocionales
+                </strong>
+            </h1>
+        </div>
+        @if (httpAcc.HttpContext.Session.GetString("FaltanteQuiniela") != "0")
+        {
+            <div>
+                <h1 style="font-size:18px;">Compra $ @httpAcc.HttpContext.Session.GetString("FaltanteQuiniela") pesos más y recibe otra oportunidad de ganar</h1>
+            </div>
+        }
+        <hr />
+    </div>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+        <table class="table table-hover table-responsive text-nowrap">
+            <thead class="bg-light">
+                <tr>
+                    <th><h4 class="text-center">Código</h4></th>
+                    <th><h4 class="text-center">Nombre</h4></th>
+                    <th><h4 class="text-center">Estatus</h4></th>
+                    <th><h4 class="text-center">Comentarios</h4></th>
+                    <th><h4 class="text-center">Puntaje</h4></th>
+                    <th><h4 class="text-center">Posición</h4></th>
+                    <th><h4 class="text-center">Acciones</h4></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr align="center">
+
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="~/img/bola.png"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" onclick="AgregarClase()" />
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1"><strong>@item.Codigo</strong></p>
+                                    @if (item.UsuarioModel != null)
+                                    {
+                                        <p class="fw-bold mb-1"><strong>@item.UsuarioModel.Email</strong></p>
+                                    }
+
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.UsuarioModel != null)
+                            {
+                                <p class="fw-bold mb-1"><strong>@item.Cliente-@item.Consecutivo <br /> @item.Nombre</strong></p>
+                            }
+                            else
+                            {
+                                <p class="fw-bold mb-1"><strong> @item.Cliente-@item.Consecutivo <br /> @item.Nombre </strong></p>
+                            }
+                        </td>
+                        <td align="center">
+                            @if (item.Utilizado == ASPNetCore6Identity.Models.Helper.Enums.EstatusCodigoPromocional.Utilizado)
+                            {
+                                <span class="badge badge-warning rounded-pill d-inline">Uilizado</span>
+                            }
+                            else
+                            {
+                                @if (item.Utilizado == ASPNetCore6Identity.Models.Helper.Enums.EstatusCodigoPromocional.Activo)
+                                {
+                                    <span class="badge badge-success rounded-pill d-inline">Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-info rounded-pill d-inline">Compartido</span>
+                                }
+                            }
+                        </td>
+                        <td align="center">
+                            <p class="fw-bold mb-1"><strong> @item.Comentarios</strong></p>
+                        </td>
+                        <td align="center">
+                            <p class="fw-bold mb-1" style="font-size:28px !important;"><strong>@item.PuntajeQuinela</strong></p>
+                        </td>
+                        <td align="center">
+                            <p class="fw-bold mb-1" style="font-size:28px !important;"><strong>@item.posicion</strong></p>
+                        </td>
+                        <td align="center">
+
+                            @if (item.Utilizado == ASPNetCore6Identity.Models.Helper.Enums.EstatusCodigoPromocional.Activo)
+                            {
+                                <div class="d-flex align-items-center">
+                                    <a style="cursor:pointer" onclick="CompartirCodigo('@item.Clave')" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Comparte a colaboradores, amigos o clientes"><strong>Compartir</strong></a>
+                                    &nbsp
+                                    <a style="cursor:pointer" onclick="UtilizarCodigo('@item.Clave')" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Utiliza para ti este código"><strong>Utilizar</strong></a>
+                                </div>
+                            }
+                            else
+                            {
+                                @if (item.Utilizado == ASPNetCore6Identity.Models.Helper.Enums.EstatusCodigoPromocional.Compartido)
+                                {
+                                    <a asp-controller="Quinielas" asp-action="Info" asp-route-codigoPromocional="@item.Codigo" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ve el resultado de tu código compartido"><strong>Ver quiniela</strong></a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Quinielas" asp-action="Index" asp-route-codigoPromocional="@item.Codigo" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edita tus pronosticos"><strong>Jugar</strong></a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />
+
+<script>
+
+    function AgregarClase() {
+        //$(".btn").removeClass("animated flash");
+        $(".btn").addClass("blink");
+    }
+
+    function CompartirCodigo(clave) {
+        $('#clave').val(clave);
+        $('#CompartirCodigo').modal('show');
+    }
+
+    function UtilizarCodigo(clave) {
+        $('#claveCodigo').val(clave);
+        $('#UtilizarCodigo').modal('show');
+    }
+
+</script>
+
+<div class="modal fade" id="CompartirCodigo" tabindex="-1" role="dialog" aria-labelledby="CompartirCodigo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameLogin">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px">Compartir código</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h1 class="modal-title" id="myModalLabel" style="font-size:20px">Comparte este código con clientes, colaboradores o amigos</h1>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Home" asp-action="CompartirCodigo">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Código</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="clave" name="clave" required placeholder="Código" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Nombre</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="nobre" name="nombre" required placeholder="Nombre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important">Email</label>
+                            <div class="col-sm-7">
+                                <input type="email" class="form-control" id="email" name="email" required placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important">Comentario ó mensaje</label>
+                            <div class="col-sm-7">
+                                <textarea rows="4" type="text" class="form-control" id="comentario" name="comentario" required placeholder="Comentario"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <hr />
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="UtilizarCodigo" tabindex="-1" role="dialog" aria-labelledby="UtilizarCodigo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameLogin">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h1 class="modal-title" id="myModalLabel" style="font-size:25px">Utilizar código</h1>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h1 class="modal-title" id="myModalLabel" style="font-size:20px">Activa tu código agregando los siguientes datos</h1>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Home" asp-action="UtilizarCodigo">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Código</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="claveCodigo" name="claveCodigo" required placeholder="Código" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important"><strong>Nombre</strong></label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="nobre" name="nombre" required placeholder="Nombre">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user" class="col-sm-4 control-label" style="color:white !important">Comentario ó mensaje</label>
+                            <div class="col-sm-7">
+                                <textarea rows="4" type="text" class="form-control" id="comentario" name="comentario" required placeholder="Comentario"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <hr />
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

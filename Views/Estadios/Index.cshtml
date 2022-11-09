@@ -1,0 +1,235 @@
+﻿@{
+    ViewData["Title"] = "Estadios";
+}
+
+@model List<Quinela_TPD.Models.EstadioModel>
+
+<div class="text-center">
+    <br />
+    <div class="card">
+        <div class="card-title"><h2><strong>Estadios</strong> </h2></div>
+        <hr />
+        <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2">
+                <button class="btn btn-primary" onclick="CrearEstadio()">Agregar</button>
+            </div>
+        </div>
+        <hr />
+        <table class="table table-hover text-nowrap">
+            <thead class="bg-light">
+                <tr>
+                    <th><h4 class="text-center">Clave</h4></th>
+                    <th><h4 class="text-center">Nombre</h4></th>
+                    <th><h4 class="text-center">Opciones</h4></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr align="center">
+
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="~/img/Estadios/@item.Imagen"
+                                 alt=""
+                                 style="width: 45px; height: 45px"
+                                 class="rounded-circle" />
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">@item.Clave</p>
+
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <p class="fw-normal mb-1">@item.Nombre</p>
+                        </td>
+
+                        <td align="center">
+                            @*<li><a class="dropdown-item" asp-action="Login" asp-controller="Usuario">Cerrar sesión</a></li>*@
+                            <a class="dropdown-item" onclick="EditarEstadio('@item.Clave','@item.Nombre')"><h1 style="font-size:16px;">Editar</h1></a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+</div>
+
+
+<script>
+    function CrearEstadio() {
+        $('#CrearEstadio').modal('show');
+    }
+
+    function EditarEstadio(clave, nombre) {
+        $('#clave').val(clave);
+        $('#nombre').val(nombre);
+        $('#EditarEstadio').modal('show');
+    }
+</script>
+
+
+<div class="modal fade" id="EditarEstadio" tabindex="-1" role="dialog" aria-labelledby="EditarEstadio" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h4 class="modal-title text-white" id="myModalLabel" style="color:white !important;">Estadio</h4>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Estadios" asp-action="Edit" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Clave</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="clave" name="clave" class="form-control" type="text" readonly />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Nombre</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="nombre" name="nombre" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Imagen</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="imagen" name="imagen" class="form-control" type="file" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CrearEstadio" tabindex="-1" role="dialog" aria-labelledby="CrearEstadio" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content ">
+            <div class="frameModal">
+                <div class="modal-header">
+                    <div class="align-content-end">
+                        <h4 class="modal-title text-white" id="myModalLabel" style="color:white !important;">Agregar estadio</h4>
+                    </div>
+                    <div class="align-content-center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form method="post" asp-controller="Estadios" asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Nombre</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="nombre" name="nombre" class="form-control" type="text" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="col" colspan="1">
+                                    <div>
+                                        <label class="form-control">Imagen</label>
+                                    </div>
+                                </th>
+                                <td colspan="3">
+                                    <div>
+                                        <input id="imagen" name="imagen" class="form-control" type="file" />
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="modal-footer">
+
+                            <div class="form-group row">
+
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary form-control">Guardar</button>
+                                </div>
+
+                                <div class="col">
+                                    <a class="btn btn-default form-control" data-dismiss="modal">Cancelar</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
