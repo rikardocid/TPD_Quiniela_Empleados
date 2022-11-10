@@ -19,15 +19,18 @@ namespace Quinela_TPD.Controllers
         private readonly IUsuarioRepository usuarioRepository;
         private readonly IGenerarCodigosPromocionalesRepository generarCodigosPromocionalesRepository;
         private readonly ICodigoPromocionalRepository codigoPromocionalRepository;
+        private readonly IEmailConfiguracionRepository emailConfiguracionRepository;
         string AlertaMensaje = "";
 
         public UsuarioController(IUsuarioRepository usuarioRepository,
             IGenerarCodigosPromocionalesRepository generarCodigosPromocionalesRepository,
-            ICodigoPromocionalRepository codigoPromocionalRepository)
+            ICodigoPromocionalRepository codigoPromocionalRepository,
+            IEmailConfiguracionRepository emailConfiguracionRepository)
         {
             this.usuarioRepository = usuarioRepository;
             this.generarCodigosPromocionalesRepository = generarCodigosPromocionalesRepository;
             this.codigoPromocionalRepository = codigoPromocionalRepository;
+            this.emailConfiguracionRepository = emailConfiguracionRepository;
         }
 
         [HttpGet]
@@ -245,11 +248,15 @@ namespace Quinela_TPD.Controllers
         {
             try
             {
+
                 //Get variables del correo
-                string emailOrigen = "avisos@tractopartesdiamante.com.mx";
-                string password = "Av1Sd1@cto2022";
-                int port = 587;
-                string host = "servidor3315.tl.controladordns.com";
+                EmailConfiguracionModel email = emailConfiguracionRepository.GetAll().Where(w => w.Clave == "1").FirstOrDefault();
+
+                //Get variables del correo
+                string emailOrigen = email.Email;//"avisos@tractopartesdiamante.com.mx";
+                string password = email.Password;//"r_$/kld_1H34@_d%m&3xS";
+                int port = Convert.ToInt32(email.Port);//587;
+                string host = email.Host; //"servidor3315.tl.controladordns.com";
                 string asunto = "Tracto Partes Diamante Invita";
                 string mensjae = "Código Promocional ";
 
@@ -336,10 +343,13 @@ namespace Quinela_TPD.Controllers
                 if (emailDestino != null)
                 {
                     //Get variables del correo
-                    string emailOrigen = "avisos@tractopartesdiamante.com.mx";
-                    string password = "Av1Sd1@cto2022";
-                    int port = 587;
-                    string host = "servidor3315.tl.controladordns.com";
+                    EmailConfiguracionModel email = emailConfiguracionRepository.GetAll().Where(w => w.Clave == "1").FirstOrDefault();
+
+                    //Get variables del correo
+                    string emailOrigen = email.Email;//"avisos@tractopartesdiamante.com.mx";
+                    string password = email.Password;//"r_$/kld_1H34@_d%m&3xS";
+                    int port = Convert.ToInt32(email.Port);//587;
+                    string host = email.Host; //"servidor3315.tl.controladordns.com";
                     string asunto = "Recuperar contraseña";
                     string mensjae = "Código y contraseña";
 

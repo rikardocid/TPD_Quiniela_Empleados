@@ -16,6 +16,7 @@ namespace ASPNetCore6Identity.Data
         public DbSet<MarcardorModel> marcardorModels { get; set; }
         public DbSet<QuinielaModel> quinielaModels { get; set; }
         public DbSet<UsuarioModel> usuarioModels { get; set; }
+        public DbSet<EmailConfiguracionModel> emailConfiguracionModels { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

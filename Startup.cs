@@ -86,6 +86,8 @@ namespace ASPNetCore6Identity
             services.AddScoped<ICodigoPromocionalRepository, CodigoPromocionalRepository>();
             services.AddScoped<IQuinielaRepository, QuinielaRepository>();
             services.AddScoped<IMarcadorRepository, MarcadorRepository>();
+            services.AddScoped<IEmailConfiguracionRepository, EmailConfiguracionRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
