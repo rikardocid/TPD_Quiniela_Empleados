@@ -2,69 +2,75 @@
     ViewData["Title"] = "Como jugar";
 }
 
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpAcc
+
 <div class="text-center">
     <br />
     <div class="card">
-        <hr />
-        <div class="card-title">
-            <h1>
-                <strong>
-                    Instrucciones
-                </strong>
-            </h1>
-        </div>
-        <hr />
-
         <div class="card-body text-justify">
-
-            <strong>
-                Tus códigos promocionales pueden ser utilizados por ti o compartidos por alguno de tus colaboradores o clientes, para hacerlo ve a la opcion "Mis Quinielas"
-                desliza a la derecha si usas dispositivo móvil y encontraras estas opciones.
-            </strong>
-            <br />
-            <br />
-            <div class="text-center">
-                <div id="carousel-banner-home" class="carousel carousel-banners slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src='~/img/Manuales/tablacodigo.jpg'>
+            @if (httpAcc.HttpContext.Session.GetString("Rol") != "ClienteDependiente")
+            {
+                <hr />
+                <div class="text-center">
+                    <h1>
+                        <strong>
+                            Instrucciones
+                        </strong>
+                    </h1>
+                </div>
+                <hr />
+                <strong>
+                    Tus códigos promocionales pueden ser utilizados por ti o compartidos por alguno de tus colaboradores o clientes, para hacerlo ve a la opcion "Mis Quinielas"
+                    desliza a la derecha si usas dispositivo móvil y encontraras estas opciones.
+                </strong>
+                <br />
+                <br />
+                <div class="text-center">
+                    <div id="carousel-banner-home" class="carousel carousel-banners slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src='~/img/Manuales/tablacodigo.jpg'>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="carousel-banner-home-responsive" class="carousel carousel-banners slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src='~/img/Manuales/tablacodigomobil.jpg'>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="carousel-banner-home-responsive" class="carousel carousel-banners slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src='~/img/Manuales/tablacodigomobil.jpg'>
+                <br />
+                <strong>
+                    Después te solicitarán unos datos muy sencillos, por favor escribelos y tu menú cambiará,
+                    solo sí utilizas el código promocional podrás editar tu quiniela y si no, a quién se la has enviado lo podrá hacer,
+                    desliza a la derecha y encontraras esta nueva opción.
+                </strong>
+                <br />
+                <br />
+                <div class="text-center">
+                    <div id="carousel-banner-home" class="carousel carousel-banners slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src='~/img/Manuales/editar.jpg'>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="carousel-banner-home-responsive" class="carousel carousel-banners slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <img src='~/img/Manuales/editarmobil.jpg'>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <br />
-            <strong>
-                Después te solicitarán unos datos muy sencillos, por favor escribelos y tu menú cambiará,
-                solo sí utilizas el código promocional podrás editar tu quiniela y si no, a quién se la has enviado lo podrá hacer,
-                desliza a la derecha y encontraras esta nueva opción.
-            </strong>
-            <br />
-            <br />
-            <div class="text-center">
-                <div id="carousel-banner-home" class="carousel carousel-banners slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src='~/img/Manuales/editar.jpg'>
-                        </div>
-                    </div>
-                </div>
-                <div id="carousel-banner-home-responsive" class="carousel carousel-banners slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src='~/img/Manuales/editarmobil.jpg'>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br />
+                <br />
+                <hr />
+            }
             <hr />
+
             <div class="text-center">
                 <h1>
                     <strong>

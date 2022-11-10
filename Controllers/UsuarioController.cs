@@ -36,7 +36,7 @@ namespace Quinela_TPD.Controllers
             try
             {
                 /*aca se tiene que ejecutar el SP y al final enviar el correo a los clientes*/
-                usuarioRepository.GetExtraerCodigosPromocionales();
+                //usuarioRepository.GetExtraerCodigosPromocionales();
 
                 var generarCodigosPromocionalesList = generarCodigosPromocionalesRepository
                     .GetAll()
@@ -47,7 +47,7 @@ namespace Quinela_TPD.Controllers
                     GenerarCodigosEmail(generarCodigosPromocionalesList.ToList());
                 }
 
-                int ContadorCodigos = 0; 
+                int ContadorCodigos = 0;
 
                 List<CodigoPromocionalModel> codigosPromocionalesModelList = new();
                 List<GenerarCodigosPromocionalesModel> generarCodigosPromocionalesModelList = new();
@@ -109,18 +109,14 @@ namespace Quinela_TPD.Controllers
 
             if (existe != null)
             {
-                existe = usuarioRepository
-               .GetAll()
-               .Where(w => w.Usuario == username &&
-                   w.Password == password &&
-                   w.Estatus == Enums.EstatusAI.Activo)
-               .FirstOrDefault();
+                // existe = usuarioRepository
+                //.GetAll()
+                //.Where(w => w.Usuario == username &&
+                //    w.Password == password &&
+                //    w.Estatus == Enums.EstatusAI.Activo)
+                //.FirstOrDefault();
 
-                if (existe == null)
-                {
-                    AlertaMensaje = "Datos de usuario invalidos";
-                }
-                else
+                if (existe.Password.ToUpper().Contains(password.ToUpper()))
                 {
                     existe.UltimoAcceso = DateTime.Now;
                     await usuarioRepository.UpdateAsync(existe);
@@ -130,6 +126,10 @@ namespace Quinela_TPD.Controllers
                     HttpContext.Session.SetString("Rol", existe.Rol.ToString());
 
                     return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    AlertaMensaje = "Datos de usuario invalidos";
                 }
             }
             else
