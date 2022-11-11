@@ -74,7 +74,7 @@
                     <h4 class="color3">@itemDate</h4>
                     @foreach (var item in Model.ListQuinielas.Where(w => w.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES")) == itemDate))
                     {
-                        @if (item.Puntaje == null && item.JuegoModel.FechaJuego.AddHours(-1) > DateTime.Now && item.JuegoModel.Editable == true)
+                        @if (item.JuegoModel.Editable == true)
                         {
 
                             <div id="row-partido" style="cursor:pointer" class="row fase-1 level-1 partido  predicho" onclick="EditarPrediccion('@item.Clave','@item.JuegoModel.EquipoModel1.Nombre','@item.JuegoModel.EquipoModel2.Nombre', '@item.Prediccion1', '@item.Prediccion3', '/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera','/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera')">

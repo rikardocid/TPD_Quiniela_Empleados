@@ -79,60 +79,54 @@
                                 @foreach (var item in Model.ListQuinielas.Where(w => w.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES")) == itemDate))
                                 {
 
-                                    <div id="row-partido" class="row fase-1 level-1 partido predicho">
-                                        <div class="col-xs-2 time level-1">
-                                            <i class="fa fa-clock-o"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
+                                    <div id="row-partido" class="row fase-1 level-1 partido  predicho">
+                                        <div class="col-xs-1 time level-1">
+                                            <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
                                         </div>
                                         <div class="col-xs-2 prediccion prediccion-mobile">
                                             <a class="btnPrediccion" data-pid="5">
                                                 <span class="icon icon-ok icon-check"></span>
                                             </a>
                                         </div>
-                                        <div class="equipos col-xs-8 " data-pid="5" data-fixture-id="">
+                                        <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
                                             <div class="row">
-                                                <div class="col-xs-6 col  error ">
-                                                    <span class="flag">
+                                                <div class="col-xs-6 col">
+                                                    <spam class="flag">
                                                         <img src="~/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera"
                                                  alt=""
-                                                 style="width: 30px; height: 30px"
+                                                 style="width: 30px; height: 30px; z-index:2;"
                                                  class="rounded-circle" />
-                                                    </span>
+                                                    </spam>
                                                     <span class="name">@item.JuegoModel.EquipoModel1.Nombre</span>
-                                                    @if (item.JuegoModel.FechaJuego < DateTime.Now)
+                                                    <span class="counter">
+                                                        @item.Prediccion1
+                                                    </span>
+                                                    @if (item.JuegoModel.MarcardorModel != null)
                                                     {
-                                                        <span class="counter">
-                                                            @item.Prediccion1
-                                                        </span>
-                                                        @if (item.JuegoModel.MarcardorModel != null)
-                                                        {
-                                                            @item.JuegoModel.MarcardorModel.Equipo1
-                                                        }
+                                                        @item.JuegoModel.MarcardorModel.Equipo1
                                                     }
                                                 </div>
                                                 <div class="col-xs-6 col acierto ">
-                                                    @if (item.JuegoModel.FechaJuego < DateTime.Now)
+                                                    @if (item.JuegoModel.MarcardorModel != null)
                                                     {
-                                                        @if (item.JuegoModel.MarcardorModel != null)
-                                                        {
-                                                            @item.JuegoModel.MarcardorModel.Equipo2
-                                                        }
-                                                        <span class="counter">
-                                                            @item.Prediccion3
-                                                        </span>
+                                                        @item.JuegoModel.MarcardorModel.Equipo2
                                                     }
+                                                    <span class="counter">
+                                                        @item.Prediccion3
+                                                    </span>
                                                     <span class="name">@item.JuegoModel.EquipoModel2.Nombre</span>
-                                                    <span class="flag">
+                                                    <spam class="flag">
                                                         <img src="~/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera"
                                                  alt=""
-                                                 style="width: 30px; height: 30px"
+                                                 style="width: 30px; height: 30px; z-index:2;"
                                                  class="rounded-circle" />
-                                                    </span>
+                                                    </spam>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xs-2 prediccion">
                                             <span class="fa fa-external-link"></span>
-                                            @if (item.JuegoModel.MarcardorModel != null)
+                                            @if (item.JuegoModel.Editable == false)
                                             {
                                                 <a class="" data-pid="5">
                                                     <h1 style="font-size:18px;"><span class="text">+ @item.Puntaje</span></h1>
@@ -140,7 +134,7 @@
                                             }
                                             else
                                             {
-                                                if (item.JuegoModel.FechaJuego.AddHours(-1) > DateTime.Now)
+                                                if (item.JuegoModel.Editable == true)
                                                 {
 
                                                     <a style="cursor:pointer;" class="text btnPrediccion animated flash">Pronóstico oculto</a>
@@ -172,7 +166,7 @@
                                 </tr>
                                 @foreach (var item in Model.ListCodigosPromocionales.Take(12))
                                 {
-                                    <tr data-id="82602" class="podio   first ">
+                                    <tr class="podio first">
                                         <td style="padding-right: 10px;">
                                             <a asp-controller="Quinielas" asp-action="Info" asp-route-codigoPromocional="@item.Codigo">
                                                 <div class="avatar" style="background-image: url(../img/Estadio.jpg);"></div>
