@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Quinela_TPD.Models;
-using Quinela_TPD.Repository.Implementations;
 using Quinela_TPD.Repository.Interfaces;
 using System;
 using System.Diagnostics;
@@ -205,7 +204,7 @@ namespace ASPNetCore6Identity.Controllers
                 string html = "<h2>Te han compartido un Código promocional <strong>" + codigoPromocional + "</strong> para participar en la quiniela del mundial 2022 de Tracto Partes Diamante de Puebla</h2>" +
                               "</hr>" +
                               "<h2>" + comentario + "</h2>" +
-                              "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario, escribe una contraseña y ¡listo!</h3>";
+                              "<h3>Accesa a esta liga https://diamante.dyndns-ip.com:5000/con tu código como usuario, escribe una contraseña y ¡listo!</h3>";
 
                 AlternateView htmlView =
                     AlternateView.CreateAlternateViewFromString(html,

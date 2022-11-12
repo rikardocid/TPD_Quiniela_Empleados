@@ -82,9 +82,18 @@
                                     <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
                                 </div>
                                 <div class="col-xs-2 prediccion prediccion-mobile">
-                                    <a class="btnPrediccion" data-pid="5">
-                                        <span class="icon icon-ok icon-check"></span>
-                                    </a>
+                                    @if (item.JuegoModel.MarcardorModel == null)
+                                    {
+                                        <a class="btnPrediccion" data-pid="5">
+                                            <span class="icon icon-ok icon-check"></span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btnPrediccion" data-pid="5">
+                                            <span class="icon">+ @item.Puntaje</span>
+                                        </a>
+                                    }
                                 </div>
                                 <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
                                     <div class="row">
@@ -154,9 +163,18 @@
                                     <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
                                 </div>
                                 <div class="col-xs-2 prediccion prediccion-mobile">
-                                    <a class="btnPrediccion" data-pid="5">
-                                        <span class="icon icon-ok icon-check"></span>
-                                    </a>
+                                    @if (item.JuegoModel.MarcardorModel == null)
+                                    {
+                                        <a class="btnPrediccion" data-pid="5">
+                                            <span class="icon icon-ok icon-check"></span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btnPrediccion" data-pid="5">
+                                            <span class="icon">+ @item.Puntaje</span>
+                                        </a>
+                                    }
                                 </div>
                                 <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
                                     <div class="row">

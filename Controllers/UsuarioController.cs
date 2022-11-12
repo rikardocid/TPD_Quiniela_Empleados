@@ -284,7 +284,7 @@ namespace Quinela_TPD.Controllers
                               "<h2>¡Hay increibles premios!</h2>" +
                               "</hr>" +
                               "<h1>¡Mucha suerte!</h1>" +
-                              "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario <strong>" + noCliente + "</strong>, tu RFC como contraseña y ¡listo!</h3>";
+                              "<h3>Accesa a esta liga https://diamante.dyndns-ip.com:5000/ con tu código como usuario <strong>" + noCliente + "</strong>, tu RFC como contraseña y ¡listo!</h3>";
 
                 AlternateView htmlView =
                     AlternateView.CreateAlternateViewFromString(html,
@@ -365,7 +365,7 @@ namespace Quinela_TPD.Controllers
                     string html = "<h2>Su usuario es: " + emailDestino.Usuario + "<br/> Su contraseña es: " + emailDestino.Password + "</h2>" +
                                   "</hr>" +
                                   "<h1>¡Mucha suerte!</h1>" +
-                                  "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario <strong>" + emailDestino.Usuario + "</strong>, escribe tu contraseña " + emailDestino.Password + " y ¡listo!</h3>" +
+                                  "<h3>Accesa a esta liga https://diamante.dyndns-ip.com:5000/ con tu código como usuario <strong>" + emailDestino.Usuario + "</strong>, escribe tu contraseña " + emailDestino.Password + " y ¡listo!</h3>" +
                                   "</hr>";
 
                     AlternateView htmlView =
