@@ -204,7 +204,7 @@ namespace ASPNetCore6Identity.Controllers
                 string html = "<h2>Te han compartido un Código promocional <strong>" + codigoPromocional + "</strong> para participar en la quiniela del mundial 2022 de Tracto Partes Diamante de Puebla</h2>" +
                               "</hr>" +
                               "<h2>" + comentario + "</h2>" +
-                              "<h3>Accesa a esta liga https://diamante.dyndns-ip.com:5000/con tu código como usuario, escribe una contraseña y ¡listo!</h3>";
+                              "<h3>Accesa a esta liga https://diamante.dyndns-ip.com:5000/ con tu código como usuario, escribe una contraseña y ¡listo!</h3>";
 
                 AlternateView htmlView =
                     AlternateView.CreateAlternateViewFromString(html,
@@ -216,8 +216,6 @@ namespace ASPNetCore6Identity.Controllers
                 // referenciado desde el código HTML como origen
                 // de la imagen (resaltado en amarillo)...
                 //var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-
-
 
                 // Por último, vinculamos ambas vistas al mensaje...
                 mailMessage.AlternateViews.Add(htmlView);

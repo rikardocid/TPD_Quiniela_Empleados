@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quinela_TPD", "Quinela_TPD.csproj", "{26E7BBAA-B3D6-46D4-89B0-B716E231A9DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quinela_TPD_Empleados", "Quinela_TPD_Empleados.csproj", "{26E7BBAA-B3D6-46D4-89B0-B716E231A9DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

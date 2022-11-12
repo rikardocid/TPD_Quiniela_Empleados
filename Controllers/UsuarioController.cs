@@ -45,10 +45,10 @@ namespace Quinela_TPD.Controllers
                     .GetAll()
                     .Where(w => w.Codigos > 0);
 
-                if (generarCodigosPromocionalesList.Count() != 0)
-                {
-                    GenerarCodigosEmail(generarCodigosPromocionalesList.ToList());
-                }
+                //if (generarCodigosPromocionalesList.Count() != 0)
+                //{
+                //    GenerarCodigosEmail(generarCodigosPromocionalesList.ToList());
+                //}
 
                 int ContadorCodigos = 0;
 
@@ -329,6 +329,15 @@ namespace Quinela_TPD.Controllers
                     emailDestino.Usuario = codigoGenerado.Cliente;
                 }
 
+                if (emailDestino == null)
+                {
+                    UsuarioModel userEmail = new();
+                    var codigoGenerado = codigoPromocionalRepository.GetAll().Where(w => w.Codigo == cliente).FirstOrDefault();
+                    emailDestino = userEmail;
+                    emailDestino.Email = codigoGenerado.EmailCliente;
+                    emailDestino.Password = "Temporal123";
+                    emailDestino.Usuario = codigoGenerado.Cliente;
+                }
 
                 if (emailDestino != null)
                 {
@@ -361,6 +370,11 @@ namespace Quinela_TPD.Controllers
 
                     // Ahora creamos la vista para clientes que 
                     // pueden mostrar contenido HTML...
+
+                    if (emailDestino.Password != null)
+                    {
+                        emailDestino.Password = "Temporal123";
+                    }
 
                     string html = "<h2>Su usuario es: " + emailDestino.Usuario + "<br/> Su contraseña es: " + emailDestino.Password + "</h2>" +
                                   "</hr>" +
