@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Quinela_TPD.Models;
+using Quinela_TPD.Repository.Implementations;
 using Quinela_TPD.Repository.Interfaces;
 using System;
 using System.Diagnostics;
@@ -19,14 +21,18 @@ namespace ASPNetCore6Identity.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICodigoPromocionalRepository codigoPromocionalRepository;
         private readonly IGenerarCodigosPromocionalesRepository generarCodigosPromocionalesRepository;
+        private readonly IEmailConfiguracionRepository emailConfiguracionRepository;
+
 
         public HomeController(ILogger<HomeController> logger,
             ICodigoPromocionalRepository codigoPromocionalRepository,
-            IGenerarCodigosPromocionalesRepository generarCodigosPromocionalesRepository)
+            IGenerarCodigosPromocionalesRepository generarCodigosPromocionalesRepository,
+            IEmailConfiguracionRepository emailConfiguracionRepository)
         {
             _logger = logger;
             this.codigoPromocionalRepository = codigoPromocionalRepository;
             this.generarCodigosPromocionalesRepository = generarCodigosPromocionalesRepository;
+            this.emailConfiguracionRepository = emailConfiguracionRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -58,14 +64,14 @@ namespace ASPNetCore6Identity.Controllers
             {
                 if (HttpContext.Session.GetString("Rol") != "Administrador")
                 {
-                    var calculos = 
+                    var calculos =
                         codigosPromocionales.Cast<CodigoPromocionalModel>()
-                        .Where(w => w.Cliente == HttpContext.Session.GetString("Usuario") 
+                        .Where(w => w.Cliente == HttpContext.Session.GetString("Usuario")
                             && w.Utilizado == Models.Helper.Enums.EstatusCodigoPromocional.Utilizado)
                         .OrderByDescending(o => o.PuntajeQuinela)
                        .FirstOrDefault();
-                    
-                    if(calculos != null)
+
+                    if (calculos != null)
                     {
                         HttpContext.Session.SetInt32("Puntaje", (int)calculos.PuntajeQuinela);
                         //HttpContext.Session.SetString("NombreQuiniela", );
@@ -167,10 +173,13 @@ namespace ASPNetCore6Identity.Controllers
             try
             {
                 //Get variables del correo
-                string emailOrigen = "avisos@tractopartesdiamante.com.mx";
-                string password = "Av1Sd1@cto2022";
-                int port = 587;
-                string host = "servidor3315.tl.controladordns.com";
+                EmailConfiguracionModel email = emailConfiguracionRepository.GetAll().Where(w => w.Clave == "1").FirstOrDefault();
+
+                //Get variables del correo
+                string emailOrigen = email.Email;//"avisos@tractopartesdiamante.com.mx";
+                string password = email.Password;//"r_$/kld_1H34@_d%m&3xS";
+                int port = Convert.ToInt32(email.Port);//587;
+                string host = email.Host; //"servidor3315.tl.controladordns.com";
 
                 string asunto = "TractoPartes Diamante Invita";
                 string mensjae = "Código Promocional " + codigoPromocional + " " + comentario;
@@ -195,11 +204,8 @@ namespace ASPNetCore6Identity.Controllers
                 // pueden mostrar contenido HTML...
                 string html = "<h2>Te han compartido un Código promocional <strong>" + codigoPromocional + "</strong> para participar en la quiniela del mundial 2022 de Tracto Partes Diamante de Puebla</h2>" +
                               "</hr>" +
-                              "<h2>¡Hay premios increibles!</h2>" +
-                              "</hr>" +
                               "<h2>" + comentario + "</h2>" +
-                              "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario, escribe una contraseña y ¡listo!</h3>" +
-                              "<img src='cid:imagen' />";
+                              "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario, escribe una contraseña y ¡listo!</h3>";
 
                 AlternateView htmlView =
                     AlternateView.CreateAlternateViewFromString(html,
@@ -212,14 +218,7 @@ namespace ASPNetCore6Identity.Controllers
                 // de la imagen (resaltado en amarillo)...
                 //var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
-                LinkedResource img =
-                    new LinkedResource(@"wwwroot\img\CorreoCliente.jpg",
-                                        MediaTypeNames.Image.Jpeg);
 
-                img.ContentId = "imagen";
-
-                // Lo incrustamos en la vista HTML...
-                htmlView.LinkedResources.Add(img);
 
                 // Por último, vinculamos ambas vistas al mensaje...
                 mailMessage.AlternateViews.Add(htmlView);
@@ -232,7 +231,6 @@ namespace ASPNetCore6Identity.Controllers
             catch (Exception ex)
             {
                 var ms = ex.Message;
-                throw;
             }
         }
 

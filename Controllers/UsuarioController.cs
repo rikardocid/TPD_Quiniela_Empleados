@@ -279,14 +279,12 @@ namespace Quinela_TPD.Controllers
 
                 // Ahora creamos la vista para clientes que 
                 // pueden mostrar contenido HTML...
-                string html = "<h2>Felicidades cliente " + noCliente + " ha ganado más códigos promocionales para participar en la quiniela de Tracto Partes Diamante de Puebla  </h2>" +
+                string html = "<h2>Felicidades" + noCliente + " ha ganado más códigos promocionales para participar en la quiniela de Tracto Partes Diamante de Puebla  </h2>" +
                               "</hr>" +
                               "<h2>¡Hay increibles premios!</h2>" +
                               "</hr>" +
                               "<h1>¡Mucha suerte!</h1>" +
-                              "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario <strong>" + noCliente + "</strong>, tu RFC como contraseña y ¡listo!</h3>" +
-                                  "<h4>Si tienes alguna duda enviala respondiendo este correo y con un numero al que podamos llamarte</h4>" +
-                              "<img src='cid:imagen' />";
+                              "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario <strong>" + noCliente + "</strong>, tu RFC como contraseña y ¡listo!</h3>";
 
                 AlternateView htmlView =
                     AlternateView.CreateAlternateViewFromString(html,
@@ -299,14 +297,6 @@ namespace Quinela_TPD.Controllers
                 // de la imagen (resaltado en amarillo)...
                 //var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
-                LinkedResource img =
-                    new LinkedResource(@"wwwroot\img\CorreoClienteCodigos.jpg",
-                                        MediaTypeNames.Image.Jpeg);
-
-                img.ContentId = "imagen";
-
-                // Lo incrustamos en la vista HTML...
-                htmlView.LinkedResources.Add(img);
 
                 // Por último, vinculamos ambas vistas al mensaje...
                 mailMessage.AlternateViews.Add(htmlView);
@@ -374,13 +364,9 @@ namespace Quinela_TPD.Controllers
 
                     string html = "<h2>Su usuario es: " + emailDestino.Usuario + "<br/> Su contraseña es: " + emailDestino.Password + "</h2>" +
                                   "</hr>" +
-                                  "<h2>¡Hay increibles premios!</h2>" +
-                                  "</hr>" +
                                   "<h1>¡Mucha suerte!</h1>" +
                                   "<h3>Accesa a esta liga https://quiniela2022.clienteleal.com/ con tu código como usuario <strong>" + emailDestino.Usuario + "</strong>, escribe tu contraseña " + emailDestino.Password + " y ¡listo!</h3>" +
-                                  "<h4>Si tienes alguna duda enviala respondiendo este correo y con un numero al que podamos llamarte</h4>" +
-                                  "</hr>" +
-                                  "<img src='cid:imagen' />";
+                                  "</hr>";
 
                     AlternateView htmlView =
                         AlternateView.CreateAlternateViewFromString(html,
@@ -393,14 +379,7 @@ namespace Quinela_TPD.Controllers
                     // de la imagen (resaltado en amarillo)...
                     //var path = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
 
-                    LinkedResource img =
-                        new LinkedResource(@"wwwroot\img\CorreoClienteCodigos.jpg",
-                                            MediaTypeNames.Image.Jpeg);
 
-                    img.ContentId = "imagen";
-
-                    // Lo incrustamos en la vista HTML...
-                    htmlView.LinkedResources.Add(img);
 
                     // Por último, vinculamos ambas vistas al mensaje...
                     mailMessage.AlternateViews.Add(htmlView);
