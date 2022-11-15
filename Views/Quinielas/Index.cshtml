@@ -281,6 +281,15 @@
 
 <script>
     function EditarPrediccion(clave, equipo1, equipo2, prediccion1, prediccion3, img1, img2) {
+
+        if (prediccion1 == '') {
+            prediccion1 = '0';
+        }
+
+        if (prediccion3 == '') {
+            prediccion3 = '0';
+        }
+
         $('#clave').val(clave);
         $('#equipo1').val(equipo1);
         $('#equipo2').val(equipo2);
@@ -398,25 +407,8 @@
                             </div>
                         </div>
 
-
                         <div class="col-xs-12 counters flag" style="background-color:rgba(255,255,255,0.1); z-index:-1;">
                         </div>
-
-                        @*<div class="form-group">
-                        <div>
-                        <h1 style="font-size:20px;"><input type="text" class="form-control" id="equipo1" name="equipo1" readonly style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
-
-                        <h1 style="font-size:20px;"><input min="0" type="number" class="form-control" id="prediccion1" name="prediccion1" required placeholder="predición" style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
-                        </div>
-                        </div>
-
-                        <div class="form-group">
-                        <div>
-                        <h1 style="font-size:20px;"><input type="text" class="form-control" id="equipo2" name="equipo2" readonly style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
-
-                        <h1 style="font-size:20px;"><input min="0" type="number" class="form-control" id="prediccion3" name="prediccion3" required placeholder="predición" style="text-align:center !important; background-color:rgba(82,30,44,.8); color:rgb(242,194,45) !important" /></h1>
-                        </div>
-                        </div>*@
 
                         <div class="modal-footer">
                             <input style="color:rgba(254,254,254,1)" type="hidden" class="form-control" id="clave" name="clave" readonly hidden onshow="false">
