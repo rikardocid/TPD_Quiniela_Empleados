@@ -319,25 +319,38 @@ namespace Quinela_TPD.Controllers
             {
                 var emailDestino = usuarioRepository.GetAll().Where(w => w.Usuario == cliente).FirstOrDefault();
 
+                cliente = cliente.ToUpper();
+
                 if (emailDestino == null)
                 {
                     UsuarioModel userEmail = new();
                     emailDestino = userEmail;
                     var codigoGenerado = generarCodigosPromocionalesRepository.GetAll().Where(w => w.Cliente == cliente).FirstOrDefault();
-                    emailDestino.Email = codigoGenerado.EmailCliente;
-                    emailDestino.Password = codigoGenerado.RFC;
-                    emailDestino.Usuario = codigoGenerado.Cliente;
+                    if (codigoGenerado == null)
+                    {
+                        //emailDestino = userEmail;
+                        emailDestino.Email = codigoGenerado.EmailCliente;
+                        emailDestino.Password = "Temporal123";
+                        emailDestino.Usuario = codigoGenerado.Cliente;
+                    }
+                    else
+                    {
+                        emailDestino.Email = codigoGenerado.EmailCliente;
+                        emailDestino.Password = codigoGenerado.RFC;
+                        emailDestino.Usuario = codigoGenerado.Cliente;
+                    }
+
                 }
 
-                if (emailDestino == null)
-                {
-                    UsuarioModel userEmail = new();
-                    var codigoGenerado = codigoPromocionalRepository.GetAll().Where(w => w.Codigo == cliente).FirstOrDefault();
-                    emailDestino = userEmail;
-                    emailDestino.Email = codigoGenerado.EmailCliente;
-                    emailDestino.Password = "Temporal123";
-                    emailDestino.Usuario = codigoGenerado.Cliente;
-                }
+                //if (emailDestino == null)
+                //{
+                //    UsuarioModel userEmail = new();
+                //    var codigoGenerado = codigoPromocionalRepository.GetAll().Where(w => w.Codigo == cliente).FirstOrDefault();
+                //    emailDestino = userEmail;
+                //    emailDestino.Email = codigoGenerado.EmailCliente;
+                //    emailDestino.Password = "Temporal123";
+                //    emailDestino.Usuario = codigoGenerado.Cliente;
+                //}
 
                 if (emailDestino != null)
                 {
