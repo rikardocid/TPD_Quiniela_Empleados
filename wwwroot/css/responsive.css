@@ -485,9 +485,9 @@ footer .elementos {
     .lista-partidos .flag {
         display: none;
     }
-
+    /*Tamaño de letra movil*/
     .lista-partidos .equipos .row .col {
-        font-size: .9rem;
+        font-size: .8rem;
     }
 
     .lista-partidos .equipos .row:before {

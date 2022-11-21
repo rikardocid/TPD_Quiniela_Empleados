@@ -3,201 +3,193 @@
 @using System.Globalization
 @inject IHttpContextAccessor httpAcc
 
-<div class="frame">
-    <!-- CONTENT -->
-    <div class="first-content container-fluid home-container">
-        <hr />
+
         <div class="card-title">
             <h1 class="text-center">
                 <strong>
-                    Quiniela - @Model.ListQuinielas.Select(s=>s.CodigoPromocionalModel.Nombre).FirstOrDefault()
+                    Quiniela - @httpAcc.HttpContext.Session.GetString("NombreCodigoPromocional")
                 </strong>
+            </h1>
         </div>
-        <hr />
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-9">
-                    <!-- FASE DE GRUPOS -->
-                    <div class="lista-partidos">
-                        @foreach (var itemFase in Model.ListQuinielas.OrderBy(o => o.JuegoModel.Fase).Select(s => s.JuegoModel.Fase).Distinct())
+        <div class="row">
+            <div class="col-sm-9">
+                <!-- FASE DE GRUPOS -->
+                <div class="lista-partidos">
+                    @foreach (var itemFase in Model.ListQuinielas.OrderBy(o => o.JuegoModel.Fase).Select(s => s.JuegoModel.Fase).Distinct())
+                    {
+                        <hr />
+                        @switch (itemFase)
                         {
-                            <hr />
-                            @switch (itemFase)
+                            case 1:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Fase de grupos
+                                </h4>
+                                break;
+                            case 2:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Octavos de final
+                                </h4>
+                                break;
+
+                            case 3:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Cuartos de final
+                                </h4>
+                                break;
+
+                            case 4:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Semifinal
+                                </h4>
+                                break;
+
+                            case 5:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Tercer y cuarto lugar
+                                </h4>
+                                break;
+
+                            case 6:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Final
+                                </h4>
+                                break;
+                            default:
+                                <h4 class="color3">
+                                    <span class="icon-trophy"></span>
+                                    Configurar
+                                </h4>
+                                break;
+                        }
+                        <hr />
+
+                        @foreach (var itemDate in Model.ListQuinielas.Where(w => w.JuegoModel.Fase == itemFase).Select(s => s.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES"))).Distinct())
+                        {
+                            <h4 class="color3">@itemDate</h4>
+                            @foreach (var item in Model.ListQuinielas.Where(w => w.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES")) == itemDate))
                             {
-                                case 1:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Fase de grupos
-                                    </h4>
-                                    break;
-                                case 2:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Octavos de final
-                                    </h4>
-                                    break;
 
-                                case 3:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Cuartos de final
-                                    </h4>
-                                    break;
-
-                                case 4:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Semifinal
-                                    </h4>
-                                    break;
-
-                                case 5:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Tercer y cuarto lugar
-                                    </h4>
-                                    break;
-
-                                case 6:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Final
-                                    </h4>
-                                    break;
-                                default:
-                                    <h4 class="color3">
-                                        <span class="icon-trophy"></span>
-                                        Configurar
-                                    </h4>
-                                    break;
-                            }
-                            <hr />
-
-                            @foreach (var itemDate in Model.ListQuinielas.Where(w => w.JuegoModel.Fase == itemFase).Select(s => s.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES"))).Distinct())
-                            {
-                                <h4 class="color3">@itemDate</h4>
-                                @foreach (var item in Model.ListQuinielas.Where(w => w.JuegoModel.FechaJuego.ToString("D", CultureInfo.CreateSpecificCulture("es-ES")) == itemDate))
-                                {
-
-                                    <div id="row-partido" class="row fase-1 level-1 partido  predicho">
-                                        <div class="col-xs-1 time level-1">
-                                            <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
-                                        </div>
-                                        <div class="col-xs-2 prediccion prediccion-mobile">
-                                            @if (item.JuegoModel.MarcardorModel == null)
-                                            {
-                                                <a class="btnPrediccion" data-pid="5">
-                                                    <span class="icon icon-ok icon-check"></span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btnPrediccion" data-pid="5">
-                                                    <span class="icon">+ @item.Puntaje</span>
-                                                </a>
-                                            }
-                                        </div>
-                                        <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
-                                            <div class="row">
-                                                <div class="col-xs-6 col">
-                                                    <spam class="flag">
-                                                        <img src="~/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera"
-                                                 alt=""
-                                                 style="width: 30px; height: 30px; z-index:2;"
-                                                 class="rounded-circle" />
-                                                    </spam>
-                                                    <span class="name">@item.JuegoModel.EquipoModel1.Nombre</span>
-                                                    <span class="counter">
-                                                        @item.Prediccion1
-                                                    </span>
-                                                    @if (item.JuegoModel.MarcardorModel != null)
-                                                    {
-                                                        @item.JuegoModel.MarcardorModel.Equipo1
-                                                    }
-                                                </div>
-                                                <div class="col-xs-6 col acierto ">
-                                                    @if (item.JuegoModel.MarcardorModel != null)
-                                                    {
-                                                        @item.JuegoModel.MarcardorModel.Equipo2
-                                                    }
-                                                    <span class="counter">
-                                                        @item.Prediccion3
-                                                    </span>
-                                                    <span class="name">@item.JuegoModel.EquipoModel2.Nombre</span>
-                                                    <spam class="flag">
-                                                        <img src="~/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera"
-                                                 alt=""
-                                                 style="width: 30px; height: 30px; z-index:2;"
-                                                 class="rounded-circle" />
-                                                    </spam>
-                                                </div>
+                                <div id="row-partido" class="row fase-1 level-1 partido  predicho">
+                                    <div class="col-xs-1 time level-1">
+                                        <i class="icon icon-time"></i>@item.JuegoModel.FechaJuego.ToString("HH:mm")
+                                    </div>
+                                    <div class="col-xs-2 prediccion prediccion-mobile">
+                                        @if (item.JuegoModel.MarcardorModel == null)
+                                        {
+                                            <a class="btnPrediccion" data-pid="5">
+                                                <span class="icon icon-ok icon-check"></span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btnPrediccion" data-pid="5">
+                                                <span class="icon">@item.Puntaje</span>
+                                            </a>
+                                        }
+                                    </div>
+                                    <div class="equipos col-xs-9 " data-pid="5" data-fixture-id="">
+                                        <div class="row">
+                                            <div class="col-xs-6 col">
+                                                <spam class="flag">
+                                                    <img src="~/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera"
+                                             alt=""
+                                             style="width: 30px; height: 30px; z-index:2;"
+                                             class="rounded-circle" />
+                                                </spam>
+                                                <span class="name">@item.JuegoModel.EquipoModel1.Nombre</span>
+                                                <span class="counter">
+                                                    @item.Prediccion1
+                                                </span>
+                                                @if (item.JuegoModel.MarcardorModel != null)
+                                                {
+                                                    @item.JuegoModel.MarcardorModel.Equipo1
+                                                }
+                                            </div>
+                                            <div class="col-xs-6 col acierto ">
+                                                @if (item.JuegoModel.MarcardorModel != null)
+                                                {
+                                                    @item.JuegoModel.MarcardorModel.Equipo2
+                                                }
+                                                <span class="counter">
+                                                    @item.Prediccion3
+                                                </span>
+                                                <span class="name">@item.JuegoModel.EquipoModel2.Nombre</span>
+                                                <spam class="flag">
+                                                    <img src="~/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera"
+                                             alt=""
+                                             style="width: 30px; height: 30px; z-index:2;"
+                                             class="rounded-circle" />
+                                                </spam>
                                             </div>
                                         </div>
-                                        <div class="col-xs-2 prediccion">
-                                            <span class="fa fa-external-link"></span>
-                                            @if (item.JuegoModel.Editable == false)
+                                    </div>
+                                    <div class="col-xs-2 prediccion">
+                                        <span class="fa fa-external-link"></span>
+                                        @if (item.JuegoModel.MarcardorModel != null)
+                                        {
+                                            <a class="" data-pid="5">
+                                                <h1 style="font-size:18px;"><span class="text">+ @item.Puntaje</span></h1>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            if (item.JuegoModel.FechaJuego.AddHours(-1) > DateTime.Now)
                                             {
-                                                <a class="" data-pid="5">
-                                                    <h1 style="font-size:18px;"><span class="text">+ @item.Puntaje</span></h1>
-                                                </a>
+
+                                                <a style="cursor:pointer;" class="text btnPrediccion animated flash" onclick="EditarPrediccion('@item.Clave','@item.JuegoModel.EquipoModel1.Nombre','@item.JuegoModel.EquipoModel2.Nombre', '@item.Prediccion1', '@item.Prediccion3', '/img/Banderas/@item.JuegoModel.EquipoModel1.Bandera','/img/Banderas/@item.JuegoModel.EquipoModel2.Bandera')">Modificar predicción</a>
                                             }
                                             else
                                             {
-                                                if (item.JuegoModel.Editable == true)
-                                                {
-
-                                                    <a style="cursor:pointer;" class="text btnPrediccion animated flash">Pronóstico oculto</a>
-                                                }
-                                                else
-                                                {
-                                                    <a class="" data-pid="5">
-                                                        <span class="text">Calculando..</span>
-                                                    </a>
-                                                }
+                                                <a class="" data-pid="5">
+                                                    <span class="text">Calculando..</span>
+                                                </a>
                                             }
-                                        </div>
+                                        }
                                     </div>
-                                }
+                                </div>
                             }
                         }
-                    </div>
+                    }
                 </div>
-                <div class="col-sm-3 sidebar" style="background-color:rgba(98,21,45,.5);">
-                    <div class="text-center">
-                        <h1 style="font-size:24px"><span>Posiciones</span></h1>
-                        <div class="leaderboard leaderboard-widget text-center">
-                            <table>
-                                <tr>
-                                    <th></th>
-                                    <th width="50%">
+            </div>
+            <div class="col-sm-3 sidebar" style="background-color:rgba(98,21,45,.5);">
+                <div class="text-center">
+                    <h1 style="font-size:24px"><span>Posiciones</span></h1>
+                    <div class="leaderboard leaderboard-widget text-center">
+                        <table>
+                            <tr>
+                                <th></th>
+                                <th width="50%">
 
-                                    <th width="100" class="text-right">Puntos</th>
+                                <th width="100" class="text-right">Puntos</th>
+                            </tr>
+                            @foreach (var item in Model.ListCodigosPromocionales.Take(12))
+                            {
+                                <tr class="podio first">
+                                    <td style="padding-right: 10px;">
+                                        <a asp-controller="Quinielas" asp-action="Info" asp-route-codigoPromocional="@item.Codigo">
+                                            <div class="avatar" style="background-image: url(../img/Estadio.jpg);"></div>
+                                        </a>
+                                        <strong class="font-family2 position">@item.posicion</strong>
+                                    </td>
+                                    <td width="100%">
+                                        <div><strong>@item.Cliente</strong></div>
+                                        <small class="grupo">@item.Nombre</small>
+                                    </td>
+                                    <td class="font-family2 puntos">
+                                        @item.PuntajeQuinela
+                                    </td>
                                 </tr>
-                                @foreach (var item in Model.ListCodigosPromocionales.Take(12))
-                                {
-                                    <tr class="podio first">
-                                        <td style="padding-right: 10px;">
-                                            <a asp-controller="Quinielas" asp-action="Info" asp-route-codigoPromocional="@item.Codigo">
-                                                <div class="avatar" style="background-image: url(../img/Estadio.jpg);"></div>
-                                            </a>
-                                            <strong class="font-family2 position">@item.posicion</strong>
-                                        </td>
-                                        <td width="100%">
-                                            <div><strong>@item.Cliente</strong></div>
-                                            <small class="grupo">@item.Nombre</small>
-                                        </td>
-                                        <td class="font-family2 puntos">
-                                            @item.PuntajeQuinela
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-                        </div>
-                        <br>
+                            }
+                        </table>
                     </div>
+                    <br>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-

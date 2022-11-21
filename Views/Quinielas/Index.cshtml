@@ -8,7 +8,7 @@
 <div class="card-title">
     <h1 class="text-center">
         <strong>
-            Quiniela
+            Quiniela - @httpAcc.HttpContext.Session.GetString("NombreCodigoPromocional")
         </strong>
     </h1>
 </div>
@@ -91,7 +91,7 @@
                                     else
                                     {
                                         <a class="btnPrediccion" data-pid="5">
-                                            <span class="icon">+ @item.Puntaje</span>
+                                            <span class="icon">@item.Puntaje</span>
                                         </a>
                                     }
                                 </div>
@@ -172,7 +172,7 @@
                                     else
                                     {
                                         <a class="btnPrediccion" data-pid="5">
-                                            <span class="icon">+ @item.Puntaje</span>
+                                            <span class="icon">@item.Puntaje</span>
                                         </a>
                                     }
                                 </div>

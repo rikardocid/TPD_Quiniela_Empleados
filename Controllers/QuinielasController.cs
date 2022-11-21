@@ -35,7 +35,7 @@ namespace Quinela_TPD.Controllers
             HttpContext.Session.SetString("CodigoPromocional", codigoPromocional);
 
             var quinielaByCodigo = quinielaRepository.GetAllIncludes().Where(w =>
-                w.CodigoPromocionalModel.Clave == codigoPromocional).ToList();
+                w.ClaveCodigoPromocional == codigoPromocional).ToList();
 
             List<QuinielaModel> quinielaModelList = new();
 
@@ -85,9 +85,12 @@ namespace Quinela_TPD.Controllers
                 .ToList();
 
             quinielaMV.ListQuinielas = quinielaRepository.GetAllIncludes()
-                .Where(w => w.CodigoPromocionalModel.Clave == codigoPromocional)
+                .Where(w => w.ClaveCodigoPromocional == codigoPromocional)
                 .OrderBy(od => od.JuegoModel.FechaJuego)
                 .ToList();
+
+            var nombre = await codigoPromocionalRepository.GetByClaveAsync(HttpContext.Session.GetString("CodigoPromocional"));
+            HttpContext.Session.SetString("NombreCodigoPromocional", nombre.Nombre + " - " + nombre.Consecutivo);
 
             return View(quinielaMV);
         }
@@ -108,13 +111,13 @@ namespace Quinela_TPD.Controllers
         {
             if (codigoPromocional == null)
             {
-                codigoPromocional = HttpContext.Session.GetString("CodigoPromocional");
+                codigoPromocional = HttpContext.Session.GetString("CodigoPromocionalInfo");
             }
 
-            HttpContext.Session.SetString("CodigoPromocional", codigoPromocional);
+            HttpContext.Session.SetString("CodigoPromocionalInfo", codigoPromocional);
 
             var quinielaByCodigo = quinielaRepository.GetAllIncludes().Where(w =>
-                w.CodigoPromocionalModel.Clave == codigoPromocional).ToList();
+                w.ClaveCodigoPromocional == codigoPromocional).ToList();
 
             List<QuinielaModel> quinielaModelList = new();
 
@@ -134,30 +137,33 @@ namespace Quinela_TPD.Controllers
                 }
                 await this.quinielaRepository.CreateRangeAsync(quinielaModelList);
             }
-            else
-            {
-                foreach (var item in juegosList)
-                {
-                    QuinielaModel quinielaModel = new QuinielaModel();
+            //else
+            //{
+            //    foreach (var item in juegosList)
+            //    {
+            //        QuinielaModel quinielaModel = new QuinielaModel();
 
-                    quinielaModel.Clave = Guid.NewGuid().ToString("N");
-                    quinielaModel.ClaveJuego = item.Clave;
-                    quinielaModel.ClaveCodigoPromocional = codigoPromocional;
+            //        quinielaModel.Clave = Guid.NewGuid().ToString("N");
+            //        quinielaModel.ClaveJuego = item.Clave;
+            //        quinielaModel.ClaveCodigoPromocional = codigoPromocional;
 
-                    quinielaModelList.Add(quinielaModel);
-                }
+            //        quinielaModelList.Add(quinielaModel);
+            //    }
 
-                foreach (var item in quinielaByCodigo.Select(s => s.ClaveJuego))
-                {
-                    quinielaModelList.Remove(quinielaModelList.Where(w => w.ClaveJuego == item).FirstOrDefault());
-                }
+            //    foreach (var item in quinielaByCodigo.Select(s => s.ClaveJuego))
+            //    {
+            //        quinielaModelList.Remove(quinielaModelList.Where(w => w.ClaveJuego == item).FirstOrDefault());
+            //    }
 
-                await this.quinielaRepository.CreateRangeAsync(quinielaModelList);
-            }
+            //    await this.quinielaRepository.CreateRangeAsync(quinielaModelList);
+            //}
+
+            var nombre = await codigoPromocionalRepository.GetByClaveAsync(HttpContext.Session.GetString("CodigoPromocionalInfo"));
+            HttpContext.Session.SetString("NombreCodigoPromocional", nombre.Nombre + " - " + nombre.Consecutivo);
 
             QuinielaMV quinielaMV = new QuinielaMV();
             quinielaMV.ListCodigosPromocionales = codigoPromocionalRepository.GetAll().Where(w => w.PuntajeQuinela != 0).OrderByDescending(o => o.PuntajeQuinela).ToList();
-            quinielaMV.ListQuinielas = quinielaRepository.GetAllIncludes().Where(w => w.CodigoPromocionalModel.Clave == codigoPromocional).OrderBy(od => od.JuegoModel.FechaJuego).ToList();
+            quinielaMV.ListQuinielas = quinielaRepository.GetAllIncludes().Where(w => w.ClaveCodigoPromocional.ToUpper().Contains(codigoPromocional.ToUpper())).OrderBy(od => od.JuegoModel.FechaJuego).ToList();
             return View(quinielaMV);
         }
 
