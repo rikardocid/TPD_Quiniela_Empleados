@@ -154,14 +154,32 @@ namespace Quinela_TPD.Controllers
                 item.Puntaje = puntaje;
                 QuinielaModelList.Add(item);
 
+
+
+
                 ////suma a puntaje de codigo promocional--C-157	JOSE EDMUNDO ESPINO GONZALEZ   refamundo@hotmail.com
                 CodigoPromocionalModel codigoPromocionalModel =
                             await codigoPromocionalRepository
                                 .GetByClaveAsync(item.ClaveCodigoPromocional);
 
-                codigoPromocionalModel.PuntajeQuinela = codigoPromocionalModel.PuntajeQuinela + puntaje;
+                var puntajetotalQuiniela = quinielaRepository.GetAll()
+                    .Where(w => w.ClaveCodigoPromocional == item.ClaveCodigoPromocional && w.Puntaje != null).Sum(s => s.Puntaje);
+
+                //Se genera bug apra controlar los resultados se tiene que agregar dos veces el mismo marcador
+                codigoPromocionalModel.PuntajeQuinela = puntajetotalQuiniela;// + puntaje; //codigoPromocionalModel.PuntajeQuinela + puntaje;
 
                 codigoPromocionalModelList.Add(codigoPromocionalModel);
+
+
+
+                ////suma a puntaje de codigo promocional--C-157	JOSE EDMUNDO ESPINO GONZALEZ   refamundo@hotmail.com
+                //CodigoPromocionalModel codigoPromocionalModel =
+                //            await codigoPromocionalRepository
+                //                .GetByClaveAsync(item.ClaveCodigoPromocional);
+
+                //codigoPromocionalModel.PuntajeQuinela = codigoPromocionalModel.PuntajeQuinela + puntaje;
+
+                //codigoPromocionalModelList.Add(codigoPromocionalModel);
 
             }
 
